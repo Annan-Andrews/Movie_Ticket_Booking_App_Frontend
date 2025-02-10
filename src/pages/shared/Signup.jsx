@@ -11,10 +11,11 @@ const Signup = () => {
     try {
       const response = await axiosInstance({
         method: "POST",
-        url: "/user/login",
+        url: "/user/signup",
         data: data,
       });
       console.log("response::", response);
+      navigate("/user")
     } catch (error) {
       console.log(error);
     }
