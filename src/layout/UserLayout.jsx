@@ -20,7 +20,7 @@ const UserLayout = () => {
         method: "GET",
         url: "/user/check-user",
       });
-      dispatch(saveUser(response.data));
+      dispatch(saveUser());
     } catch (error) {
       dispatch(clearUser());
       console.log(error);
