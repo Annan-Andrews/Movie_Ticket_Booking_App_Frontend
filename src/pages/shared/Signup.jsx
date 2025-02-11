@@ -2,6 +2,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../config/axiosInstance";
+import { toast, ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Signup = () => {
   const { register, handleSubmit } = useForm();
@@ -15,7 +18,24 @@ const Signup = () => {
         data: data,
       });
       console.log("response::", response);
-      navigate("/user")
+      if (response.status === 200) {
+        toast.success("Logout successfully!", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+
+        setTimeout(() => {
+          navigate("/user")
+        }, 500);
+      }
+      
     } catch (error) {
       console.log(error);
     }

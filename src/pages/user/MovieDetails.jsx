@@ -11,20 +11,24 @@ const MovieDetails = () => {
   const [movie, isLoading, error] = useFetch(
     `/movies/get-movie-details/${movieId}`
   );
-  const [averageRating] = useFetch(`/review/get-avg-rating/${movieId}`)
+  const [averageRating] = useFetch(`/review/get-avg-rating/${movieId}`);
 
-  console.log("averageRating====",averageRating);
-  
+  console.log("averageRating====", averageRating);
 
   console.log("MovieDetails====", movie);
 
   if (isLoading) return <Skeleton />;
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen">
+    <div className="bg-gray-900 text-white min-h-screen ">
       <div
-        className="relative h-[50vh] bg-cover bg-center"
-        style={{ backgroundImage: `url(${movie.poster})` }}
+        className="relative h-[60vh] bg-cover bg-center "
+        style={{
+          backgroundImage: `url(${movie.poster})`,
+          backgroundSize: "100% 100%", 
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent"></div>
       </div>
@@ -38,7 +42,8 @@ const MovieDetails = () => {
         <div className="flex-1">
           <h1 className="text-4xl font-bold">{movie.title}</h1>
           <p className="flex items-center text-lg mt-2">
-            <BsFillStarFill className="text-yellow-400" /> &nbsp; {averageRating}
+            <BsFillStarFill className="text-yellow-400" /> &nbsp;{" "}
+            {averageRating}
             /5
           </p>
           <p className="text-lg mt-2">{movie?.genre?.join(", ")}</p>
@@ -47,7 +52,7 @@ const MovieDetails = () => {
 
           <button
             className="mt-5 bg-red-600 px-6 py-2 text-white font-semibold rounded-md hover:bg-red-700"
-            onClick={() => navigate(`/movies/${movieId}/buytickets`)}
+            onClick={() => navigate(`/theaterSelection/${movieId}`)}
           >
             Book Tickets
           </button>

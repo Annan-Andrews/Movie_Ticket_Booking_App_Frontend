@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "../components/user/Footer";
 import Header from "../components/user/Header";
-import {  useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUser, saveUser } from "../redux/features/userSlice";
 import { axiosInstance } from "../config/axiosInstance";
 import UserHeader from "../components/user/UserHeader";
+import ScrollToTop from "../components/shared/ScrollToTop";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 const UserLayout = () => {
   const { isUserAuth, userData } = useSelector((state) => state.user);
@@ -33,10 +35,24 @@ const UserLayout = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}
+      />
       {isUserAuth ? <UserHeader /> : <Header />}
 
+      <ScrollToTop />
       {/* Main Content - Grow to push footer down */}
-      <div className="flex-grow">
+      <div className="flex-grow pb-20">
         <Outlet />
       </div>
 

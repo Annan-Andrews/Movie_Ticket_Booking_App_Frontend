@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { axiosInstance } from "../../config/axiosInstance";
 import ChangePassword from "../../components/user/ChangePassword";
+import { toast, Bounce } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [profileData, isLoading, error] = useFetch("/user/profile");
-  
+  const navigate = useNavigate()
 
   const handleLogOut = async () => {
     try {
@@ -13,13 +15,28 @@ const Profile = () => {
         method: "GET",
         url: "/user/logout",
       });
-      navigate("")
+      if (response.status === 200) {
+        toast.success("Logout successfully!", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 500);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-[800px] bg-white rounded-xl shadow-lg overflow-hidden relative p-6">

@@ -8,7 +8,7 @@ const MovieCard = ({ movie }) => {
   return (
     <Link
       to={`/movieDetails/${movie?._id}`}
-      className="group relative block bg-black cursor-pointer overflow-hidden rounded-lg w-[320px]"
+      className="group relative block bg-black cursor-pointer overflow-hidden rounded-lg w-[250px]"
     >
       <img
         alt=""
@@ -16,19 +16,13 @@ const MovieCard = ({ movie }) => {
         className="absolute inset-0 size-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
       />
 
-      <div className="relative p-4 sm:p-6 lg:p-8">
-        {/* <p className="text-sm font-medium uppercase tracking-widest text-pink-500">
-          Developer
-        </p> */}
+      <div className="relative p-3 sm:p-4 lg:p-5">
+        <p className="text-lg font-bold text-white sm:text-xl">{movie?.title}</p>
 
-        <p className="text-xl font-bold text-white sm:text-2xl">
-          {movie?.title}
-        </p>
-
-        <div className="mt-32 sm:mt-48 lg:mt-64">
+        <div className="mt-20 sm:mt-28 lg:mt-36">
           <div className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
-            <p className="text-sm text-white font-serif">{movie?.description}</p>
-            <p className="text-lg font-medium text-white">{movie?.genre}</p>
+            <p className="text-xs text-white font-serif">{movie?.description}</p>
+            <p className="text-sm font-medium text-white">{movie?.genre}</p>
           </div>
         </div>
       </div>

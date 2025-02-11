@@ -6,9 +6,10 @@ import ErrorPage from "../pages/shared/ErrorPage";
 import MovieDetails from "../pages/user/MovieDetails";
 import Login from "../pages/shared/Login";
 import Signup from "../pages/shared/Signup";
-// import TheaterOwnerLayout from "../layout/TheaterOwnerLayout";
+import TheaterOwnerLayout from "../layout/TheaterOwnerLayout";
 import Profile from "../pages/user/Profile";
 import { ProtectedRoute } from "./ProtectedRoute";
+import TheaterSelection from "../pages/user/TheaterSelection";
 
 export const router = createBrowserRouter([
   {
@@ -30,10 +31,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "about",
+        element: <h1>About</h1>,
         // element: <About />,
       },
       {
         path: "contact",
+        element: <h1>Contact</h1>,
         // element: <Contact />,
       },
       {
@@ -43,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: "movieDetails/:movieId",
         element: <MovieDetails />,
+      },
+      {
+        path: "theaterSelection/:movieId",
+        element: <TheaterSelection />,
       },
       {
         element: <ProtectedRoute />,
@@ -66,41 +73,41 @@ export const router = createBrowserRouter([
     ],
   },
 
-  // {
-  //   path: "theaterOwner",
-  //   element: <TheaterOwnerLayout />,
-  //   errorElement: <ErrorPage role="theaterOwner" />,
-  //   children: [
-  //     //   {
-  //     //     path: "theaterOwner",
-  //     //     element: <Login role="theaterOwner" />,
-  //     //   },
-  //     {
-  //       path: "login",
-  //       element: <Login role="theaterOwner" />,
-  //     },
-  //     {
-  //       path: "signup",
-  //       element: <Signup role="theaterOwner" />,
-  //     },
-  //     {
-  //       path: "",
-  //       // element: <ProtectedRouteMentor />,
-  //       children: [
-  //         {
-  //           path: "dashboard",
-  //         },
-  //         {
-  //           path: "profile",
-  //           element: <h1>Theater Owner Profile page</h1>,
-  //         },
-  //         {
-  //           path: "create-theater",
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
+  {
+    path: "theaterOwner",
+    element: <TheaterOwnerLayout />,
+    errorElement: <ErrorPage role="theaterOwner" />,
+    children: [
+      //   {
+      //     path: "theaterOwner",
+      //     element: <Login role="theaterOwner" />,
+      //   },
+      {
+        path: "login",
+        element: <Login role="theaterOwner" />,
+      },
+      {
+        path: "signup",
+        element: <Signup role="theaterOwner" />,
+      },
+      {
+        path: "",
+        // element: <ProtectedRouteMentor />,
+        children: [
+          {
+            path: "dashboard",
+          },
+          {
+            path: "profile",
+            element: <h1>Theater Owner Profile page</h1>,
+          },
+          {
+            path: "create-theater",
+          },
+        ],
+      },
+    ],
+  },
   //   {
   //     path: "admin",
   //     element: <TheaterOwnerLayout />,

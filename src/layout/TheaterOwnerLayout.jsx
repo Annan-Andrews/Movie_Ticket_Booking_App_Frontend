@@ -1,13 +1,16 @@
 import React from "react";
-import Header from "../components/user/Header";
+// import Header from "../components/user/Header";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/user/Footer";
+import ScrollToTop from "../components/shared/ScrollToTop";
+import TheaterOwnerHeader from "../components/theater_Owner/TheaterOwnerHeader";
 
 const TheaterOwnerLayout = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <TheaterOwnerHeader />
 
+      <ScrollToTop />
       {/* Main Content - Grow to push footer down */}
       <div className="flex-grow">
         <Outlet />
