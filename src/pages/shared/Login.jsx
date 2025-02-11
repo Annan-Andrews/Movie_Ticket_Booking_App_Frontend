@@ -13,7 +13,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axiosInstance({
-        method: "PUT",
+        method: "POST",
         url: "/user/login",
         data: data,
       });
