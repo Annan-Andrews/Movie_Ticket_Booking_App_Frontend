@@ -4,9 +4,12 @@ import useFetch from "../../hooks/useFetch";
 import { axiosInstance } from "../../config/axiosInstance";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import { clearUser } from "../../redux/features/userSlice";
 
 const UserHeader = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch
   const [profileData] = useFetch("/user/profile");
 
   const menuDropdownRef = useRef(null);
@@ -33,6 +36,7 @@ const UserHeader = () => {
         method: "GET",
         url: "/user/logout",
       });
+      dispatch(clearUser());
       console.log("Logging out...");
       if (response.status === 200) {
         toast.success("Logout successfully!", {

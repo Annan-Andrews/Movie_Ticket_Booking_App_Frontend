@@ -5,7 +5,6 @@ import { axiosInstance } from "../../config/axiosInstance";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const Signup = () => {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
@@ -32,12 +31,22 @@ const Signup = () => {
         });
 
         setTimeout(() => {
-          navigate("/user")
+          navigate("/user");
         }, 500);
       }
-      
     } catch (error) {
       console.log(error);
+      toast.error(error.response?.data?.message || "Something went wrong!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
     }
   };
 
