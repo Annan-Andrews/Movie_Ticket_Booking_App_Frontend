@@ -1,16 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
-import { axiosInstance } from "../../config/axiosInstance";
-import { toast, ToastContainer, Bounce } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useDispatch } from "react-redux";
-import { clearUser } from "../../redux/features/userSlice";
+import useLogout from "../../hooks/useLogout";
 
 const UserHeader = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch
+
   const [profileData] = useFetch("/user/profile");
+  const logout = useLogout();
 
   const menuDropdownRef = useRef(null);
   const [isMenuDropdownOpen, setIsMenuDropdownOpen] = useState(false);
@@ -29,36 +26,6 @@ const UserHeader = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const handleLogOut = async () => {
-    try {
-      const response = await axiosInstance({
-        method: "GET",
-        url: "/user/logout",
-      });
-      dispatch(clearUser());
-      console.log("Logging out...");
-      if (response.status === 200) {
-        toast.success("Logout successfully!", {
-          position: "top-center",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
-
-        setTimeout(() => {
-          navigate("/login");
-        }, 500);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   // Handle navigation & close dropdown
   const handleNavigate = (path) => {
@@ -140,7 +107,7 @@ const UserHeader = () => {
               <a>Contact</a>
             </li>
             <li>
-              <a onClick={handleLogOut}>Logout</a>
+              <a onClick={logout}>Logout</a>
             </li>
           </ul>
         </details>

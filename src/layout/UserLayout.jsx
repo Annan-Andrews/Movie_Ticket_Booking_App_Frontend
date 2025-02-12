@@ -43,7 +43,7 @@ const UserLayout = () => {
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
-        draggable={false}
+        draggable
         pauseOnHover
         theme="dark"
         transition={Bounce}
@@ -57,10 +57,10 @@ const UserLayout = () => {
       </div>
 
       <span className="relative flex justify-center">
-        <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75"></div>
-
+        <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-gradient-to-r from-gray-300 via-gray-500 to-gray-300 opacity-75"></div>
         <span className="relative z-10 bg-white px-6"></span>
       </span>
+
       <Footer />
     </div>
   );

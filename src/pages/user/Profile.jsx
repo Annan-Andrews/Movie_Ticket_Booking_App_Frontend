@@ -1,41 +1,14 @@
 import React, { useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import { axiosInstance } from "../../config/axiosInstance";
 import ChangePassword from "../../components/user/ChangePassword";
-import { toast, Bounce } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import useLogout from "../../hooks/useLogout";
 
 const Profile = () => {
   const [profileData, isLoading, error] = useFetch("/user/profile");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleLogOut = async () => {
-    try {
-      const response = await axiosInstance({
-        method: "GET",
-        url: "/user/logout",
-      });
-      if (response.status === 200) {
-        toast.success("Logout successfully!", {
-          position: "top-center",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
-
-        setTimeout(() => {
-          navigate("/login");
-        }, 500);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const logout = useLogout();
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -90,7 +63,7 @@ const Profile = () => {
 
         {/* Logout Button */}
         <div className="mt-6 flex justify-center">
-          <button className="btn btn-error" onClick={handleLogOut}>
+          <button className="btn btn-error" onClick={logout}>
             Logout
           </button>
         </div>
