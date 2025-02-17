@@ -18,24 +18,33 @@ const Profile = () => {
           Hi, {profileData?.name || "User"}
         </div>
 
-        {/* Profile Picture */}
-        <div className="flex justify-start pl-10 -mt-16">
-          {profileData.profilePic ? (
-            <div className="avatar">
-              <div className="w-24 rounded-full border-4 border-white">
-                <img src={profileData?.profilePic} alt="Profile" />
-              </div>
+        
+        {isLoading ? (
+          <p className="text-center text-white">Loading...</p>
+        ) : error ? (
+          <p className="text-center text-red-500">{error}</p>
+        ) : (
+          <>
+            {/* Profile Picture */}
+            <div className="flex justify-start pl-10 -mt-16">
+              {profileData?.profilePic ? (
+                <div className="avatar">
+                  <div className="w-24 rounded-full border-4 border-white">
+                    <img src={profileData.profilePic} alt="Profile" />
+                  </div>
+                </div>
+              ) : (
+                <div className="avatar placeholder">
+                  <div className="bg-neutral text-neutral-content w-24 rounded-full border-4 border-white">
+                    <span className="text-3xl">
+                      {profileData?.name?.slice(0, 2).toUpperCase() || "U"}
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="avatar placeholder">
-              <div className="bg-neutral text-neutral-content w-24 rounded-full border-4 border-white">
-                <span className="text-3xl">
-                  {profileData?.name.slice(0, 2).toUpperCase()}
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
+          </>
+        )}
 
         {/* User Info Section */}
         <div className="p-6 ">

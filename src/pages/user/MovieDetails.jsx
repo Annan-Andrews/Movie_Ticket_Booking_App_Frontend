@@ -1,34 +1,46 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import Skeleton from "../../components/shared/Skeleton";
 import { BsFillStarFill } from "react-icons/bs";
 import Reviews from "../../components/user/Review";
+import { axiosInstance } from "../../config/axiosInstance";
 
 const MovieDetails = () => {
   const { movieId } = useParams();
-  const navigate = useNavigate();
-  const [movie, isLoading, error] = useFetch(
-    `/movies/get-movie-details/${movieId}`
-  );
+  const { isUserAuth } = useSelector((state) => state.user);
+  const { register, handleSubmit, reset } = useForm();
+  const [movie, isLoading] = useFetch(`/movies/get-movie-details/${movieId}`);
   const [averageRating] = useFetch(`/review/get-avg-rating/${movieId}`);
+  const navigate = useNavigate();
 
-  console.log("averageRating====", averageRating);
-
-  console.log("MovieDetails====", movie);
+  const onSubmit = async (data) => {
+    const response = await axiosInstance({
+      method: "POST",
+      url: "/review/add-review",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { ...data, movieId },
+    });
+    const result = await response.json();
+    if (response.ok) {
+      alert("Review added successfully!");
+      reset();
+    } else {
+      alert(result.message);
+    }
+  };
 
   if (isLoading) return <Skeleton />;
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen ">
+    <div className="bg-gray-900 text-white min-h-screen">
       <div
-        className="relative h-[60vh] bg-cover bg-center "
-        style={{
-          backgroundImage: `url(${movie.poster})`,
-          backgroundSize: "100% 100%", 
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
+        className="relative h-[60vh] bg-cover bg-center"
+        style={{ backgroundImage: `url(${movie.poster})` }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent"></div>
       </div>
@@ -43,8 +55,7 @@ const MovieDetails = () => {
           <h1 className="text-4xl font-bold">{movie.title}</h1>
           <p className="flex items-center text-lg mt-2">
             <BsFillStarFill className="text-yellow-400" /> &nbsp;{" "}
-            {averageRating}
-            /5
+            {averageRating}/5
           </p>
           <p className="text-lg mt-2">{movie?.genre?.join(", ")}</p>
           <p className="text-lg mt-2">{movie.description}</p>
@@ -58,6 +69,43 @@ const MovieDetails = () => {
           </button>
         </div>
       </div>
+
+      {isUserAuth && (
+        <div className="container mx-auto px-4 py-8">
+          <div className="w-full max-w-md">
+            <h2 className="text-2xl font-semibold mb-4 text-left text-gray-800 dark:text-gray-100">
+              Add Your Review
+            </h2>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div className="relative">
+                <input
+                  type="number"
+                  placeholder="Rating (1-5)"
+                  className="input input-bordered w-full max-w-xs"
+                  min="1"
+                  max="5"
+                  {...register("rating", { required: true, min: 1, max: 5 })}
+                />
+              </div>
+
+              <div className="relative">
+                <textarea
+                  placeholder="Write your review"
+                  className="textarea textarea-bordered textarea-lg w-full max-w-xs"
+                  {...register("comment", { required: true })}
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                className="w-40 py-2 text-base font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition duration-200 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600"
+              >
+                Add Review
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
 
       <Reviews movieId={movie._id} />
     </div>
