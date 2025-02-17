@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "../components/user/Footer";
 import Header from "../components/user/Header";
@@ -14,6 +14,9 @@ const UserLayout = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  const [searchResults, setSearchResults] = useState([]); // Store search results
+  const [searchQuery, setSearchQuery] = useState(""); // Store search query
+
   console.log("isUserAuth====", isUserAuth);
 
   const checkUser = async () => {
@@ -22,7 +25,10 @@ const UserLayout = () => {
         method: "GET",
         url: "/user/check-user",
       });
-      dispatch(saveUser());
+
+      console.log("check-user response ====", response);
+
+      dispatch(saveUser(response?.data?.token));
     } catch (error) {
       dispatch(clearUser());
       console.log(error);
@@ -37,7 +43,7 @@ const UserLayout = () => {
     <div className="flex flex-col min-h-screen">
       <ToastContainer
         position="top-center"
-        autoClose={3000}
+        autoClose={1500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -48,12 +54,23 @@ const UserLayout = () => {
         theme="dark"
         transition={Bounce}
       />
-      {isUserAuth ? <UserHeader /> : <Header />}
+      {/* Pass setSearchQuery and setSearchResults to Header */}
+      {isUserAuth ? (
+        <UserHeader
+          setSearchQuery={setSearchQuery}
+          setSearchResults={setSearchResults}
+        />
+      ) : (
+        <Header
+          setSearchQuery={setSearchQuery}
+          setSearchResults={setSearchResults}
+        />
+      )}
 
       <ScrollToTop />
       {/* Main Content - Grow to push footer down */}
       <div className="flex-grow pb-20">
-        <Outlet />
+        <Outlet context={{ searchResults, searchQuery }} />
       </div>
 
       <span className="relative flex justify-center">

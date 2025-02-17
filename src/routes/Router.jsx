@@ -10,6 +10,19 @@ import TheaterOwnerLayout from "../layout/TheaterOwnerLayout";
 import Profile from "../pages/user/Profile";
 import { ProtectedRoute } from "./ProtectedRoute";
 import TheaterSelection from "../pages/user/TheaterSelection";
+import CreateTheater from "../pages/theater_Owner/CreateTheater";
+import ProtectedRouteTheaterOwner from "./ProtectedRouteTheaterOwner";
+import TheaterOwnerDashboard from "../pages/theater_Owner/TheaterOwnerDashboard";
+import ViewTheaters from "../pages/theater_Owner/ViewTheaters";
+import TheaterDetails from "../pages/theater_Owner/TheaterDetails";
+import EditTheater from "../pages/theater_Owner/EditTheater";
+import CreateMovie from "../pages/theater_Owner/CreateMovie";
+import ViewMovies from "../pages/theater_Owner/ViewMovies";
+import MovieDetailsTHO from "../pages/theater_Owner/MovieDetailsTHO";
+import EditMovie from "../pages/theater_Owner/EditMovie";
+import ViewMovieSchedules from "../pages/theater_Owner/ViewMovieSchedules";
+import AddMovieScheduleForm from "../pages/theater_Owner/AddMovieScheduleForm";
+import EditProfile from "../components/user/EditProfile";
 
 export const router = createBrowserRouter([
   {
@@ -53,7 +66,7 @@ export const router = createBrowserRouter([
       },
       {
         element: <ProtectedRoute />,
-        errorElement: <ErrorPage role="user" />,
+        errorElement: <ErrorPage />,
         path: "user",
         children: [
           {
@@ -63,6 +76,10 @@ export const router = createBrowserRouter([
           {
             path: "profile",
             element: <Profile role="user" />,
+          },
+          {
+            path: "edit-profile",
+            element: <EditProfile role="user" />,
           },
           {
             path: "booking",
@@ -78,10 +95,6 @@ export const router = createBrowserRouter([
     element: <TheaterOwnerLayout />,
     errorElement: <ErrorPage role="theaterOwner" />,
     children: [
-      //   {
-      //     path: "theaterOwner",
-      //     element: <Login role="theaterOwner" />,
-      //   },
       {
         path: "login",
         element: <Login role="theaterOwner" />,
@@ -92,10 +105,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "",
-        // element: <ProtectedRouteMentor />,
+        element: <ProtectedRouteTheaterOwner />,
         children: [
           {
             path: "dashboard",
+            element: <TheaterOwnerDashboard />,
           },
           {
             path: "profile",
@@ -103,6 +117,43 @@ export const router = createBrowserRouter([
           },
           {
             path: "create-theater",
+            element: <CreateTheater />,
+          },
+          {
+            path: "view-theaters",
+            element: <ViewTheaters />,
+          },
+          {
+            path: "theaterDetails/:theaterId",
+            element: <TheaterDetails />,
+          },
+          {
+            path: "edit-Theater/:theaterId",
+            element: <EditTheater />,
+          },
+          {
+            path: "theater/:theaterId/add-movie-schedule",
+            element: <AddMovieScheduleForm />,
+          },
+          {
+            path: "create-movie",
+            element: <CreateMovie />,
+          },
+          {
+            path: "view-movies",
+            element: <ViewMovies />,
+          },
+          {
+            path: "movieDetails/:movieId",
+            element: <MovieDetailsTHO />,
+          },
+          {
+            path: "edit-Movie/:movieId",
+            element: <EditMovie />,
+          },
+          {
+            path: "view-MovieSchedules",
+            element: <ViewMovieSchedules />,
           },
         ],
       },

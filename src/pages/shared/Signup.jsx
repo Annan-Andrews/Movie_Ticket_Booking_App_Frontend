@@ -5,48 +5,42 @@ import { axiosInstance } from "../../config/axiosInstance";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Signup = () => {
+const Signup = ({ role = "user" }) => {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
+
+  const user = {
+    role: "user",
+    signupAPI: "/user/signup",
+    HomeRoute: "/user",
+    loginRoute: "/login",
+  };
+
+  if (role == "theaterOwner") {
+    user.role = "theaterOwner";
+    user.signupAPI = "/theaterOwnerAdmin/signup";
+    user.HomeRoute = "/theaterOwner/dashboard";
+    user.loginRoute = "/theaterOwner/login";
+  }
 
   const onSubmit = async (data) => {
     try {
       const response = await axiosInstance({
         method: "POST",
-        url: "/user/signup",
+        url: user.signupAPI,
         data: data,
       });
       console.log("response::", response);
       if (response.status === 200) {
-        toast.success("Logout successfully!", {
-          position: "top-center",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
+        toast.success("Account Created successfully!");
 
         setTimeout(() => {
-          navigate("/user");
+          navigate(user.HomeRoute);
         }, 500);
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data?.message || "Something went wrong!", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        transition: Bounce,
-      });
+      toast.error(error.response?.data?.message || "Something went wrong!");
     }
   };
 
@@ -54,7 +48,9 @@ const Signup = () => {
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-lg">
         <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
-          Sign Up
+          {user?.role === "theaterOwner"
+            ? "Join as a Theater Owner"
+            : "Join Us!"}
         </h1>
 
         <form
@@ -127,7 +123,7 @@ const Signup = () => {
 
           <p className="text-center text-sm text-gray-500">
             Existing User?
-            <a className="underline" onClick={() => navigate("/login")}>
+            <a className="underline" onClick={() => navigate(user.loginRoute)}>
               Login
             </a>
           </p>

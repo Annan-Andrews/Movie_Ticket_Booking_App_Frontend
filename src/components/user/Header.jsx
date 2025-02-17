@@ -1,11 +1,34 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GiHamburgerMenu } from "react-icons/gi";
 
-const Header = () => {
+const Header = ({ setSearchResults, setSearchQuery }) => {
   const navigate = useNavigate();
+  const [query, setQuery] = useState("");
 
   const menuDropdownRef = useRef(null);
   const [isMenuDropdownOpen, setIsMenuDropdownOpen] = useState(false);
+
+  const handleSearch = async (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    setSearchQuery(value);
+
+    if (!value.trim()) {
+      setSearchResults([]); // Clear search results if input is empty
+      return;
+    }
+
+    try {
+      const response = await axiosInstance.get(
+        `/movies/search-movies?title=${value}`
+      );
+      setSearchResults(response.data.data); // Store search results
+      console.log(response.data.data); 
+    } catch (error) {
+      setSearchResults([]); // Clear results if API fails
+    }
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -32,14 +55,19 @@ const Header = () => {
     <div className="navbar bg-base-100">
       {/* Left Section (Logo & Search) */}
       <div className="flex-1 flex items-center gap-3">
-        <a className="btn btn-ghost text-xl" onClick={() => navigate("/")}>
-          Movie Booking
-        </a>
+        <img
+          onClick={() => navigate("/")}
+          src="https://res.cloudinary.com/dnxflkosb/image/upload/v1739373180/Logo_nrplsu.png"
+          alt="Movie Booking Logo"
+          className="h-10 w-auto cursor-pointer rounded-sm"
+        />
         <div className="form-control">
           <input
             type="text"
             placeholder="Search"
             className="input input-bordered w-24 md:w-auto"
+            value={query}
+            onChange={handleSearch}
           />
         </div>
       </div>
@@ -59,21 +87,8 @@ const Header = () => {
           open={isMenuDropdownOpen}
           onToggle={(e) => setIsMenuDropdownOpen(e.target.open)}
         >
-          <summary className="btn btn-ghost btn-circle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h7"
-              />
-            </svg>
+          <summary className="btn btn-ghost">
+            <GiHamburgerMenu className="text-white text-2xl" />
           </summary>
 
           <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow absolute right-0 mt-2">

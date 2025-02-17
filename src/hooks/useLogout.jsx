@@ -1,51 +1,56 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { toast, Bounce } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { axiosInstance } from "../config/axiosInstance";
 import { clearUser } from "../redux/features/userSlice";
+import { clearTheaterOwner } from "../redux/features/theaterOwnerSlice";
 
 const useLogout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // Get authentication status for both user and theater owner
+  const isUserAuth = useSelector((state) => state.user.isUserAuth);
+  const isTheaterOwnerAuth = useSelector(
+    (state) => state.theaterOwner.isTheaterOwnerAuth
+  );
+
   const handleLogout = async () => {
     try {
-      const response = await axiosInstance.get("/user/logout");
+      // Define logout parameters
+      let logoutApi = "";
+      let action = null;
+      let loginRoute = "";
 
-      console.log("Logging out...");
+      if (isUserAuth) {
+        logoutApi = "/user/logout";
+        action = clearUser;
+        loginRoute = "/login";
+      } else if (isTheaterOwnerAuth) {
+        logoutApi = "/theaterOwnerAdmin/logout";
+        action = clearTheaterOwner;
+        loginRoute = "/theaterOwner/login";
+      } else {
+        toast.error("No active session found!");
+        return;
+      }
+
+      // Call the logout API
+      const response = await axiosInstance.get(logoutApi);
+
       if (response.status === 200) {
-        toast.success("Logout successfully!", {
-          position: "top-center",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
+        toast.success("Logout successfully!");
 
         setTimeout(() => {
-          navigate("/login");
+          navigate(loginRoute);
         }, 500);
 
-        dispatch(clearUser());
+        dispatch(action());
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.response?.data?.message || "Something went wrong!", {
-        position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        transition: Bounce,
-      });
+      console.error("Logout error:", error);
+      toast.error(error.response?.data?.message || "Something went wrong!");
     }
   };
 

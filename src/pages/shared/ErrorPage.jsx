@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useRouteError } from "react-router-dom";
 
-const ErrorPage = ({ role }) => {
+const ErrorPage = ({ role ="user" }) => {
   const navigate = useNavigate();
   const error = useRouteError();
   console.error(error);

@@ -1,80 +1,165 @@
 import { useNavigate } from "react-router-dom";
-import { CgProfile } from "react-icons/cg";
-import { RiMovie2AiLine } from "react-icons/ri";
+import { RiMovie2Line } from "react-icons/ri";
 import { GiTheater } from "react-icons/gi";
 import { TbLogout } from "react-icons/tb";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { FiHome } from "react-icons/fi";
+import useLogout from "../../hooks/useLogout";
 import useFetch from "../../hooks/useFetch";
 
 const TheaterOwnerHeader = () => {
   const navigate = useNavigate();
-  const [profileData] = useFetch("/theaterOwnerAdmin/profile");
+  const logout = useLogout();
+  const [profileData, isLoading, error] = useFetch(
+    "/theaterOwnerAdmin/profile"
+  );
+
+  const closeSidebar = () => {
+    document.getElementById("my-drawer").checked = false;
+  };
 
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <div className="flex h-screen w-16 flex-col justify-between border-e-4 bg-slate-950">
-        <div>
-          <div className="inline-flex size-16 items-center justify-center">
-            <span className="grid size-10 place-content-center rounded-lg bg-gray-100 text-base font-semibold text-black">
-              {profileData?.name?.slice(0, 2)?.toUpperCase() || "U"}
-            </span>
-          </div>
-          <div className="border-t border-slate-800">
-            <div className="px-2 py-4">
-              <a
-                href="#"
-                className="group relative flex justify-center rounded-sm bg-blue-50 px-2 py-1.5 text-blue-700"
-              >
-                <CgProfile />
-                <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-100 px-2 py-1.5 text-xs font-semibold text-black group-hover:visible">
-                  Profile
-                </span>
-              </a>
-            </div>
-            <div className="px-2 py-4">
-              <a
-                href="#"
-                className="group relative flex justify-center rounded-sm bg-blue-50 px-2 py-1.5 text-blue-700"
-              >
-                <RiMovie2AiLine />
-                <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-100 px-2 py-1.5 text-xs font-semibold text-black group-hover:visible">
-                  Movies
-                </span>
-              </a>
-            </div>
-            <div className="px-2 py-4">
-              <a
-                href="#"
-                className="group relative flex justify-center rounded-sm bg-blue-50 px-2 py-1.5 text-blue-700"
-              >
-                <GiTheater />
-                <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-100 px-2 py-1.5 text-xs font-semibold text-black group-hover:visible">
-                  Theater
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="sticky inset-x-0 bottom-0 border-t border-slate-800 bg-slate-950 p-2">
-          <button className="group relative flex w-full justify-center rounded-lg px-2 py-4 text-sm text-gray-100 hover:bg-gray-200 hover:text-gray-900">
-            <TbLogout />
-
-            <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible">
-              Logout
-            </span>
-          </button>
-        </div>
-      </div>
-
+    <div className="flex">
       {/* Navbar */}
       <div className="flex flex-1 flex-col">
-        <div className="navbar bg-slate-950 p-4  drop-shadow-2xl">
-          <a
-            className="btn btn-ghost text-xl cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            Movie Booking
-          </a>
+        <div className="navbar bg-slate-950 p-4 drop-shadow-2xl">
+          <div className="drawer">
+            {/* Drawer Toggle Input */}
+            <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+
+            <div className="drawer-content flex items-center">
+              {/* Hamburger Button */}
+              <label htmlFor="my-drawer" className="cursor-pointer p-2">
+                <GiHamburgerMenu className="text-white text-2xl" />
+              </label>
+            </div>
+
+            {/* Sidebar Menu */}
+            <div className="drawer-side">
+              <label htmlFor="my-drawer" className="drawer-overlay "></label>
+              <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 flex flex-col justify-between">
+                <div>
+                  {/* Sidebar Content */}
+                  <li>
+                    <button
+                      className="btn m-1"
+                      onClick={() => {
+                        navigate("/theaterOwner/dashboard");
+                        closeSidebar();
+                      }}
+                    >
+                      <FiHome /> Home
+                    </button>
+                  </li>
+                  <li>
+                    <details>
+                      <summary className="btn m-1">
+                        <GiTheater /> Theater
+                      </summary>
+                      <ul className="menu bg-base-100 rounded-box z-[1] w-50 p-2 shadow">
+                        <li>
+                          <a
+                            onClick={() => {
+                              navigate("/theaterOwner/create-theater");
+                              closeSidebar();
+                            }}
+                          >
+                            Create Theater
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            onClick={() => {
+                              navigate("/theaterOwner/view-theaters");
+                              closeSidebar();
+                            }}
+                          >
+                            View Theaters
+                          </a>
+                        </li>
+                        {/* <li>
+                          <a>Edit Theaters</a>
+                        </li> */}
+                      </ul>
+                    </details>
+                  </li>
+                  <li>
+                    <details>
+                      <summary className="btn m-1">
+                        <RiMovie2Line /> Movies
+                      </summary>
+                      <ul className="menu bg-base-100 rounded-box z-[1] w-50 p-2 shadow">
+                        <li>
+                          <a
+                            onClick={() => {
+                              navigate("/theaterOwner/create-movie");
+                              closeSidebar();
+                            }}
+                          >
+                            Create Movie
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            onClick={() => {
+                              navigate("/theaterOwner/view-movies");
+                              closeSidebar();
+                            }}
+                          >
+                            View Movies
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            onClick={() => {
+                              navigate("/theaterOwner/view-MovieSchedules");
+                              closeSidebar();
+                            }}
+                          >
+                            View Movie Schedule
+                          </a>
+                        </li>
+                      </ul>
+                    </details>
+                  </li>
+                </div>
+                <li>
+                  <button
+                    onClick={logout}
+                    className="group relative flex w-full justify-center rounded-lg px-2 py-4 text-sm text-gray-100 hover:bg-gray-200 hover:text-gray-900"
+                  >
+                    <TbLogout /> Logout
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Profile & Logo */}
+          <div className="flex-none gap-3">
+            <div className="flex items-center gap-2">
+              <div
+                className="avatar placeholder cursor-pointer"
+                onClick={() => navigate("/theaterOwner/profile")}
+              >
+                <div className="bg-neutral text-neutral-content w-12 h-12 flex items-center justify-center rounded-full">
+                  <span className="text-lg font-semibold">
+                    {profileData?.name?.slice(0, 2)?.toUpperCase() || "U"}
+                  </span>
+                </div>
+              </div>
+              <span className="text-base font-medium whitespace-nowrap text-white">
+                Hi, {profileData?.name || "User"}
+              </span>
+            </div>
+
+            <img
+              onClick={() => navigate("/theaterOwner/dashboard")}
+              src="https://res.cloudinary.com/dnxflkosb/image/upload/v1739373180/Logo_nrplsu.png"
+              alt="Movie Booking Logo"
+              className="h-10 w-auto cursor-pointer rounded-sm"
+            />
+          </div>
         </div>
       </div>
     </div>

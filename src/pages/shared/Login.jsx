@@ -5,48 +5,43 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Login = () => {
+const Login = ({ role = "user" }) => {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
+
+  const user =
+    role === "theaterOwner"
+      ? {
+          role: "theaterOwner",
+          loginAPI: "/theaterOwnerAdmin/login",
+          HomeRoute: "/theaterOwner/dashboard",
+          signupRoute: "/theaterOwner/signup",
+        }
+      : {
+          role: "user",
+          loginAPI: "/user/login",
+          HomeRoute: "/user",
+          signupRoute: "/signup",
+        };
 
   const onSubmit = async (data) => {
     try {
       const response = await axiosInstance({
         method: "POST",
-        url: "/user/login",
+        url: user.loginAPI,
         data: data,
       });
       console.log("response::", response);
       if (response.status === 200) {
-        toast.success("Login successfully!", {
-          position: "top-center",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
+        toast.success("Login successfully!");
 
         setTimeout(() => {
-          navigate("/user");
+          navigate(user.HomeRoute);
         }, 500);
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data?.message || "Something went wrong!", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        transition: Bounce,
-      });
+      toast.error(error.response?.data?.message || "Something went wrong!");
     }
   };
 
@@ -54,7 +49,9 @@ const Login = () => {
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-lg">
         <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
-          Login
+          {user?.role === "theaterOwner"
+            ? "Welcome, Theater Owner!"
+            : "Welcome Back!"}
         </h1>
 
         <form
@@ -105,13 +102,14 @@ const Login = () => {
           >
             Login
           </button>
-
+          {/* {user?.role === "user" ? */}
           <p className="text-center text-sm text-gray-500">
             No account?
-            <a className="underline" onClick={() => navigate("/signup")}>
+            <a className="underline" onClick={() => navigate(user.signupRoute)}>
               Sign up
             </a>
           </p>
+          {/* :} */}
         </form>
       </div>
     </div>

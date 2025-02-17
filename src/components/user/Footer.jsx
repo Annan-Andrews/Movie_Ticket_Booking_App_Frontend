@@ -48,7 +48,8 @@ const Footer = () => {
         <div className="absolute end-4 top-4 sm:end-6 sm:top-6 lg:end-8 lg:top-8">
           <a
             className="inline-block rounded-full bg-teal-600 p-2 text-white shadow-sm transition hover:bg-teal-500 sm:p-3 lg:p-4 dark:bg-gray-700 dark:text-teal-300 dark:hover:bg-gray-600"
-            href="#"
+            onClick={()=>{window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
           >
             <span className="sr-only">Back to top</span>
 
