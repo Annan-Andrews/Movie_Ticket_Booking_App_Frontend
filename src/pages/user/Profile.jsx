@@ -1,14 +1,17 @@
-import React, { useState } from "react";
-import useFetch from "../../hooks/useFetch";
-import ChangePassword from "../../components/user/ChangePassword";
-import { useNavigate } from "react-router-dom";
-import useLogout from "../../hooks/useLogout";
+import Skeleton from "../../components/shared/Skeleton";
 
 const Profile = () => {
   const [profileData, isLoading, error] = useFetch("/user/profile");
   const navigate = useNavigate();
-
   const logout = useLogout();
+
+  if (isLoading) {
+    return <Skeleton />;
+  }
+
+  if (error) {
+    return <p className="text-center text-red-500">{error}</p>;
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-900">
@@ -18,39 +21,28 @@ const Profile = () => {
           Hi, {profileData?.name || "User"}
         </div>
 
-        
-        {isLoading ? (
-          <p className="text-center text-white">Loading...</p>
-        ) : error ? (
-          <p className="text-center text-red-500">{error}</p>
-        ) : (
-          <>
-            {/* Profile Picture */}
-            <div className="flex justify-start pl-10 -mt-16">
-              {profileData?.profilePic ? (
-                <div className="avatar">
-                  <div className="w-24 rounded-full border-4 border-white">
-                    <img src={profileData.profilePic} alt="Profile" />
-                  </div>
-                </div>
-              ) : (
-                <div className="avatar placeholder">
-                  <div className="bg-neutral text-neutral-content w-24 rounded-full border-4 border-white">
-                    <span className="text-3xl">
-                      {profileData?.name?.slice(0, 2).toUpperCase() || "U"}
-                    </span>
-                  </div>
-                </div>
-              )}
+        {/* Profile Picture */}
+        <div className="flex justify-start pl-10 -mt-16">
+          {profileData?.profilePic ? (
+            <div className="avatar">
+              <div className="w-24 rounded-full border-4 border-white">
+                <img src={profileData.profilePic} alt="Profile" />
+              </div>
             </div>
-          </>
-        )}
+          ) : (
+            <div className="avatar placeholder">
+              <div className="bg-neutral text-neutral-content w-24 rounded-full border-4 border-white">
+                <span className="text-3xl">
+                  {profileData?.name?.slice(0, 2).toUpperCase() || "U"}
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* User Info Section */}
         <div className="p-6 ">
-          <h2 className="text-2xl font-bold mb-4 text-black">
-            Personal Details
-          </h2>
+          <h2 className="text-2xl font-bold mb-4 text-black">Personal Details</h2>
           <div className="bg-gray-100 p-4 rounded-lg shadow-inner">
             <p className="text-gray-700 font-medium">
               Name: <span className="font-normal">{profileData?.name}</span>
@@ -85,5 +77,3 @@ const Profile = () => {
     </div>
   );
 };
-
-export default Profile;
