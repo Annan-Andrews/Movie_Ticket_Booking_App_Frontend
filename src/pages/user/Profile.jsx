@@ -1,3 +1,8 @@
+import React, { useState } from "react";
+import useFetch from "../../hooks/useFetch";
+import ChangePassword from "../../components/user/ChangePassword";
+import { useNavigate } from "react-router-dom";
+import useLogout from "../../hooks/useLogout";
 import Skeleton from "../../components/shared/Skeleton";
 
 const Profile = () => {
@@ -42,7 +47,9 @@ const Profile = () => {
 
         {/* User Info Section */}
         <div className="p-6 ">
-          <h2 className="text-2xl font-bold mb-4 text-black">Personal Details</h2>
+          <h2 className="text-2xl font-bold mb-4 text-black">
+            Personal Details
+          </h2>
           <div className="bg-gray-100 p-4 rounded-lg shadow-inner">
             <p className="text-gray-700 font-medium">
               Name: <span className="font-normal">{profileData?.name}</span>
@@ -77,3 +84,5 @@ const Profile = () => {
     </div>
   );
 };
+
+export default Profile;
