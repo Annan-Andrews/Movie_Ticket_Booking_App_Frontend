@@ -3,15 +3,41 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import useLogout from "../../hooks/useLogout";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { axiosInstance } from "../../config/axiosInstance";
 
-const UserHeader = () => {
+const UserHeader = ({ setSearchResults, setSearchQuery }) => {
   const navigate = useNavigate();
+  const [query, setQuery] = useState("");
 
   const [profileData] = useFetch("/user/profile");
   const logout = useLogout();
 
   const menuDropdownRef = useRef(null);
   const [isMenuDropdownOpen, setIsMenuDropdownOpen] = useState(false);
+
+  const handleSearch = async (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    setSearchQuery(value);
+
+    if (!value.trim()) {
+      setSearchResults([]); // Clear search results if input is empty
+      return;
+    }
+
+    try {
+      console.log("Calling Search API...");
+
+      const response = await axiosInstance.get(
+        `/movies/search-movies?title=${value}`
+      );
+      setSearchResults(response.data.data); // Store search results
+      console.log(response.data);
+    } catch (error) {
+      console.error("Search API Error:", error);
+      setSearchResults([]); // Clear results if API fails
+    }
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -49,6 +75,8 @@ const UserHeader = () => {
             type="text"
             placeholder="Search"
             className="input input-bordered w-24 md:w-auto"
+            value={query}
+            onChange={handleSearch}
           />
         </div>
       </div>
@@ -83,20 +111,6 @@ const UserHeader = () => {
           onToggle={(e) => setIsMenuDropdownOpen(e.target.open)}
         >
           <summary className="btn btn-ghost btn-circle">
-            {/* <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h7"
-              />
-            </svg> */}
             <GiHamburgerMenu className="text-white text-2xl" />
           </summary>
 

@@ -6,8 +6,11 @@ import useFetch from "../../hooks/useFetch";
 import { useOutletContext } from "react-router-dom";
 
 const Home = () => {
-  const { searchResults, searchQuery } = useOutletContext(); // Get search data
+  const { searchResults = [], searchQuery = "" } = useOutletContext() || {};
   const [movieList, isLoading, error] = useFetch("/movies/get-all-movies");
+
+  console.log("Received searchResults:", searchResults);
+  console.log("Received searchQuery:", searchQuery);
 
   // Use search results if available, otherwise show all movies
   const moviesToShow = searchQuery?.trim() ? searchResults : movieList;

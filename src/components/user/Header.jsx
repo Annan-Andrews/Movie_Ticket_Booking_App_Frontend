@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { axiosInstance } from "../../config/axiosInstance";
 
 const Header = ({ setSearchResults, setSearchQuery }) => {
   const navigate = useNavigate();
@@ -20,12 +21,15 @@ const Header = ({ setSearchResults, setSearchQuery }) => {
     }
 
     try {
+      console.log("Calling Search API..."); 
+
       const response = await axiosInstance.get(
         `/movies/search-movies?title=${value}`
       );
       setSearchResults(response.data.data); // Store search results
-      console.log(response.data.data); 
+      console.log(response.data); 
     } catch (error) {
+      console.error("Search API Error:", error);
       setSearchResults([]); // Clear results if API fails
     }
   };

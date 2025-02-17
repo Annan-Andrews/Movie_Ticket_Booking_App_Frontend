@@ -10,7 +10,7 @@ const useLogout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Get authentication status for both user and theater owner
+  
   const isUserAuth = useSelector((state) => state.user.isUserAuth);
   const isTheaterOwnerAuth = useSelector(
     (state) => state.theaterOwner.isTheaterOwnerAuth
@@ -36,7 +36,7 @@ const useLogout = () => {
         return;
       }
 
-      // Call the logout API
+      
       const response = await axiosInstance.get(logoutApi);
 
       if (response.status === 200) {
