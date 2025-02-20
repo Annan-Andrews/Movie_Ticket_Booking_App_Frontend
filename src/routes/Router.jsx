@@ -23,6 +23,17 @@ import EditMovie from "../pages/theater_Owner/EditMovie";
 import ViewMovieSchedules from "../pages/theater_Owner/ViewMovieSchedules";
 import AddMovieScheduleForm from "../pages/theater_Owner/AddMovieScheduleForm";
 import EditProfile from "../components/user/EditProfile";
+import SeatSelection from "../pages/user/SeatSelection";
+import BookingPage from "../pages/user/BookingPage";
+import PaymentSuccess from "../pages/user/PaymentSuccess";
+import BookingsList from "../pages/user/BookingsList";
+import BookingDetails from "../pages/user/BookingDetails";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import ViewAllTheaters from "../pages/admin/ViewAllTheater";
+import AllTheaterOwners from "../pages/admin/AllTheaterOwners";
+import AllUsers from "../pages/admin/AllUsers";
+import AllMovies from "../pages/admin/AllMovies";
+import AllMovieSchedules from "../pages/admin/AllMovieSchedules";
 
 export const router = createBrowserRouter([
   {
@@ -65,12 +76,12 @@ export const router = createBrowserRouter([
         element: <TheaterSelection />,
       },
       {
+        path: "user",
         element: <ProtectedRoute />,
         errorElement: <ErrorPage />,
-        path: "user",
         children: [
           {
-            path: "/user",
+            path: "",
             element: <Home role="user" />,
           },
           {
@@ -82,8 +93,24 @@ export const router = createBrowserRouter([
             element: <EditProfile role="user" />,
           },
           {
-            path: "booking",
-            // element: <Profile />,
+            path: "seat-selection/:scheduleId",
+            element: <SeatSelection role="user" />,
+          },
+          {
+            path: "booking/:scheduleId",
+            element: <BookingPage />,
+          },
+          {
+            path: "payment/success",
+            element: <PaymentSuccess />,
+          },
+          {
+            path: "view-bookings",
+            element: <BookingsList />,
+          },
+          {
+            path: "booking-details/:bookingId",
+            element: <BookingDetails />,
           },
         ],
       },
@@ -92,7 +119,7 @@ export const router = createBrowserRouter([
 
   {
     path: "theaterOwner",
-    element: <TheaterOwnerLayout />,
+    element: <TheaterOwnerLayout role="theaterOwner"/>,
     errorElement: <ErrorPage role="theaterOwner" />,
     children: [
       {
@@ -159,19 +186,53 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  //   {
-  //     path: "admin",
-  //     element: <TheaterOwnerLayout />,
-  //     errorElement: <ErrorPage role="admin" />,
-  //     children: [
-  //       {
-  //         path: "login",
-  //         element: <Login role="admin" />,
-  //       },
-  //       {
-  //         path: "signup",
-  //         element: <Signup role="admin" />,
-  //       },
-  //     ],
-  //   },
+  {
+    path: "admin",
+    element: <TheaterOwnerLayout />,
+    errorElement: <ErrorPage role="admin" />,
+    children: [
+      {
+        path: "login",
+        element: <Login role="admin" />,
+      },
+      {
+        path: "signup",
+        element: <Signup role="admin" />,
+      },
+      {
+        path: "",
+        element: <ProtectedRouteTheaterOwner role="admin"/>,
+        children: [
+          {
+            path: "dashboard",
+            element: <AdminDashboard />,
+          },
+          {
+            path: "profile",
+            element: <h1>Admin Profile page</h1>,
+          },
+          {
+            path: "view-all-theaters",
+            element: <ViewAllTheaters />,
+          },
+          {
+            path: "view-all-theaterOwners",
+            element: <AllTheaterOwners />,
+          },
+          {
+            path: "view-all-users",
+            element: <AllUsers />,
+          },
+          {
+            path: "view-all-movies",
+            element: <AllMovies />,
+          },
+          {
+            path: "view-all-movie-schedules",
+            element: <AllMovieSchedules />,
+          },
+        ],
+      },
+    ],
+  },
 ]);

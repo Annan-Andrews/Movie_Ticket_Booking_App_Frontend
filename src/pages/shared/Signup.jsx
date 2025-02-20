@@ -9,19 +9,27 @@ const Signup = ({ role = "user" }) => {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
 
-  const user = {
-    role: "user",
-    signupAPI: "/user/signup",
-    HomeRoute: "/user",
-    loginRoute: "/login",
-  };
-
-  if (role == "theaterOwner") {
-    user.role = "theaterOwner";
-    user.signupAPI = "/theaterOwnerAdmin/signup";
-    user.HomeRoute = "/theaterOwner/dashboard";
-    user.loginRoute = "/theaterOwner/login";
-  }
+  const user =
+    role === "theaterOwner"
+      ? {
+          role: "theaterOwner",
+          signupAPI: "/theaterOwnerAdmin/signup",
+          HomeRoute: "/theaterOwner/dashboard",
+          loginRoute: "/theaterOwner/login",
+        }
+      : role === "admin"
+      ? {
+          role: "admin",
+          signupAPI: "/theaterOwnerAdmin/signup",
+          HomeRoute: "/admin/dashboard",
+          loginRoute: "/admin/login",
+        }
+      : {
+          role: "user",
+          signupAPI: "/user/signup",
+          HomeRoute: "/user",
+          loginRoute: "/login",
+        };
 
   const onSubmit = async (data) => {
     try {

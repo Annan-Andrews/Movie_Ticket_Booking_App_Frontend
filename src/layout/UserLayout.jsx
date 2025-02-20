@@ -17,6 +17,12 @@ const UserLayout = () => {
   const [searchResults, setSearchResults] = useState([]); // Store search results
   const [searchQuery, setSearchQuery] = useState(""); // Store search query
 
+  console.log("user layout Search result ===",searchResults);
+  console.log("user layout Search query ===",searchQuery);
+  console.log("UserLayout re-rendered. searchQuery:", searchQuery, "searchResults:", searchResults);
+
+
+
   console.log("isUserAuth====", isUserAuth);
 
   const checkUser = async () => {

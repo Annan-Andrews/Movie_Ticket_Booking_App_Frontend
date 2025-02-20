@@ -32,8 +32,8 @@ const CreateTheaterForm = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message || "Something went wrong!");
-    }finally {
-      setLoading(false); 
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,24 +57,29 @@ const CreateTheaterForm = () => {
           )}
         </div>
 
-        {/* Seats */}
+        {/* Seats Field */}
         <div>
-          <label htmlFor="seats" className="block font-semibold text-gray-300">
+          <label
+            htmlFor="totalseats"
+            className="block font-semibold text-gray-300"
+          >
             Seats
           </label>
           <input
             className="w-full rounded-lg border border-gray-600 bg-gray-900 p-3 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition duration-200"
             placeholder="Enter Number of Seats"
             type="number"
-            id="seats"
+            id="totalseats"
             min="1"
-            {...register("seats", {
+            {...register("totalseats", {
               required: "Number of Seats is required",
               min: { value: 1, message: "Seats must be at least 1" },
             })}
           />
-          {errors.seats && (
-            <p className="mt-1 text-sm text-red-400">{errors.seats.message}</p>
+          {errors.totalseats && (
+            <p className="mt-1 text-sm text-red-400">
+              {errors.totalseats.message}
+            </p>
           )}
         </div>
 

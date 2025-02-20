@@ -13,10 +13,16 @@ dayjs.extend(utc);
 const TheaterSelection = () => {
   const { movieId } = useParams();
   const navigate = useNavigate();
-  const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM-DD"));
-  const [theaterList, isLoading, error] = useFetch(`/theater/get-theaters-by-movie/${movieId}`);
+  const [selectedDate, setSelectedDate] = useState(
+    dayjs().format("YYYY-MM-DD")
+  );
+  const [theaterList, isLoading, error] = useFetch(
+    `/theater/get-theaters-by-movie/${movieId}`
+  );
 
-  const dates = Array.from({ length: 7 }, (_, i) => dayjs().add(i, "day").format("YYYY-MM-DD"));
+  const dates = Array.from({ length: 7 }, (_, i) =>
+    dayjs().add(i, "day").format("YYYY-MM-DD")
+  );
 
   const settings = {
     dots: false,
@@ -34,13 +40,20 @@ const TheaterSelection = () => {
   const filteredTheaters =
     theaterList?.filter((theater) =>
       theater.movieSchedules.some(
-        (schedule) => dayjs(schedule.showDate).utc().format("YYYY-MM-DD") === selectedDate
+        (schedule) =>
+          dayjs(schedule.showDate).utc().format("YYYY-MM-DD") === selectedDate
       )
     ) || [];
 
   const formatShowTime = (showDate, showTime) => {
     const fullDateTime = `${showDate.split("T")[0]}T${showTime}`;
     return dayjs(fullDateTime).format("hh:mm A");
+  };
+
+  const handleShowTimeClick = (scheduleId) => {
+    navigate(`/user/seat-selection/${scheduleId}`, {
+      
+    });
   };
 
   return (
@@ -54,7 +67,9 @@ const TheaterSelection = () => {
             <div key={date} className="p-2">
               <button
                 className={`px-4 py-2 rounded-lg w-full text-center ${
-                  selectedDate === date ? "bg-red-500 text-white" : "bg-gray-700 text-gray-300"
+                  selectedDate === date
+                    ? "bg-red-500 text-white"
+                    : "bg-gray-700 text-gray-300"
                 }`}
                 onClick={() => setSelectedDate(date)}
               >
@@ -70,25 +85,33 @@ const TheaterSelection = () => {
         {filteredTheaters.length > 0 ? (
           <div className="space-y-6">
             {filteredTheaters.map((theater) => (
-              <div key={theater._id} className="bg-gray-700 p-6 rounded-lg shadow-md flex justify-between items-center">
+              <div
+                key={theater._id}
+                className="bg-gray-700 p-6 rounded-lg shadow-md flex justify-between items-center"
+              >
                 {/* Theater Info */}
                 <div>
                   <h2 className="text-xl font-semibold">{theater.name}</h2>
                   <p className="text-gray-400">{theater.location}</p>
                 </div>
-                
+
                 {/* Showtimes */}
                 <div className="flex items-center gap-4">
                   <h3 className="text-lg font-medium">Available Shows:</h3>
                   <div className="flex flex-wrap gap-2">
                     {theater.movieSchedules
                       .filter(
-                        (schedule) => dayjs(schedule.showDate).utc().format("YYYY-MM-DD") === selectedDate
+                        (schedule) =>
+                          dayjs(schedule.showDate)
+                            .utc()
+                            .format("YYYY-MM-DD") === selectedDate
                       )
                       .map((schedule) => (
                         <button
                           key={schedule._id}
-                          onClick={() => navigate(`/seat-selection/${schedule._id}`)}
+                          onClick={() =>
+                            navigate(`/user/seat-selection/${schedule._id}`)
+                          }
                           className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
                         >
                           {formatShowTime(schedule.showDate, schedule.showTime)}
@@ -100,7 +123,9 @@ const TheaterSelection = () => {
             ))}
           </div>
         ) : (
-          <p className="text-gray-400 text-center">No theaters available for this movie.</p>
+          <p className="text-gray-400 text-center">
+            No theaters available for this movie.
+          </p>
         )}
       </div>
     </div>

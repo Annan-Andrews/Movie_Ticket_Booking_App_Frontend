@@ -17,6 +17,13 @@ const Login = ({ role = "user" }) => {
           HomeRoute: "/theaterOwner/dashboard",
           signupRoute: "/theaterOwner/signup",
         }
+      : role === "admin"
+      ? {
+          role: "admin",
+          loginAPI: "/theaterOwnerAdmin/login",
+          HomeRoute: "/admin/dashboard",
+          signupRoute: "/admin/signup",
+        }
       : {
           role: "user",
           loginAPI: "/user/login",
@@ -51,6 +58,8 @@ const Login = ({ role = "user" }) => {
         <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
           {user?.role === "theaterOwner"
             ? "Welcome, Theater Owner!"
+            : user?.role === "admin"
+            ? "Welcome, Admin!"
             : "Welcome Back!"}
         </h1>
 

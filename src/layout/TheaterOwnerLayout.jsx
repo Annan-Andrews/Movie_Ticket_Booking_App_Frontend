@@ -12,6 +12,7 @@ import {
 } from "../redux/features/theaterOwnerSlice";
 import Header from "../components/theater_Owner/Header";
 import { axiosInstance } from "../config/axiosInstance";
+import AdminHeader from "../components/admin/AdminHeader";
 
 const TheaterOwnerLayout = () => {
   const { isTheaterOwnerAuth, theaterOwnerData } = useSelector(
@@ -30,7 +31,6 @@ const TheaterOwnerLayout = () => {
       console.log("check-user response ====", response);
 
       dispatch(saveTheaterOwner(response?.data?.token));
-      
     } catch (error) {
       dispatch(clearTheaterOwner());
       console.log(error);
@@ -60,7 +60,16 @@ const TheaterOwnerLayout = () => {
         theme="dark"
         transition={Bounce}
       />
-      {isTheaterOwnerAuth ? <TheaterOwnerHeader /> : <Header />}
+
+      {isTheaterOwnerAuth ? (
+        theaterOwnerData?.role === "admin" ? (
+          <AdminHeader />
+        ) : (
+          <TheaterOwnerHeader />
+        )
+      ) : (
+        <Header />
+      )}
 
       <ScrollToTop />
       {/* Main Content - Grow to push footer down */}

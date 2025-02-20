@@ -33,7 +33,7 @@ const AddMovieScheduleForm = () => {
         data
       );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         toast.success("Movie schedule added successfully!");
         setTimeout(() => {
           navigate(`/theaterOwner/theaterDetails/${theaterId}`);
@@ -164,7 +164,7 @@ const AddMovieScheduleForm = () => {
               {loading ? (
                 <span className="loading loading-dots loading-lg"></span>
               ) : (
-                "Update Movie"
+                "Add Movie Schedule"
               )}
             </button>
           </div>

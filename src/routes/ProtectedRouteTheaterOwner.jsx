@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 
-const ProtectedRouteTheaterOwner = () => {
+const ProtectedRouteTheaterOwner = ({ role }) => {
   const { isTheaterOwnerAuth, theaterOwnerData } = useSelector(
     (state) => state.theaterOwner
   );
@@ -13,7 +13,9 @@ const ProtectedRouteTheaterOwner = () => {
 
   // useEffect(() => {
   if (!isTheaterOwnerAuth) {
-    navigate("/theaterOwner/login");
+    role = "admin"
+      ? navigate("/admin/login")
+      : navigate("/theaterOwner/login");
     return;
   }
   // }, []);

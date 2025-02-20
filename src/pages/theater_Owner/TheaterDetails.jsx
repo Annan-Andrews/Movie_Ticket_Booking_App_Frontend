@@ -12,9 +12,6 @@ const TheaterDetails = () => {
     `/theater/get-theater-details/${theaterId}`
   );
 
-
-  
-
   if (isLoading) return <Skeleton />;
   if (error) return <p className="text-red-500">{error}</p>;
 
@@ -38,7 +35,7 @@ const TheaterDetails = () => {
               Seats:
             </dt>
             <dd class="font-semibold text-lg text-gray-700 sm:col-span-2 dark:text-gray-200">
-              {theaterDetails?.seats}
+              {theaterDetails?.seats?.length || 0}
             </dd>
           </div>
         </dl>
@@ -72,7 +69,9 @@ const TheaterDetails = () => {
       <div className="mt-6 flex gap-4">
         <button
           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
-          onClick={() => navigate(`/theaterOwner/theater/${theaterId}/add-movie-schedule`)}
+          onClick={() =>
+            navigate(`/theaterOwner/theater/${theaterId}/add-movie-schedule`)
+          }
         >
           ➕ Add Movie Schedule
         </button>

@@ -1,10 +1,64 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
+import { axiosInstance } from "../../config/axiosInstance";
 import Skeleton from "../../components/shared/Skeleton";
 import MovieCard from "../../components/user/MovieCard";
 
 const MoviesPage = () => {
+  const [filters, setFilters] = useState({ genre: [], language: [] });
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [isFiltering, setIsFiltering] = useState(false);
+
+  // Fetch all movies initially
   const [movieList, isLoading, error] = useFetch("/movies/get-all-movies");
+
+  // Handle filter selection
+  const handleFilterChange = (category, value) => {
+    setFilters((prevFilters) => {
+      const updatedFilters = { ...prevFilters };
+
+      if (updatedFilters[category].includes(value)) {
+        updatedFilters[category] = updatedFilters[category].filter(
+          (item) => item !== value
+        );
+      } else {
+        updatedFilters[category].push(value);
+      }
+
+      return updatedFilters;
+    });
+  };
+
+  // Fetch filtered movies dynamically when filters change
+  useEffect(() => {
+    const fetchFilteredMovies = async () => {
+      if (filters.genre.length === 0 && filters.language.length === 0) {
+        setIsFiltering(false); // No filters selected, show all movies
+        return;
+      }
+
+      setIsFiltering(true);
+      try {
+        const queryParams = new URLSearchParams();
+        if (filters.genre.length > 0) {
+          queryParams.append("genre", filters.genre.join("|"));
+        }
+        if (filters.language.length > 0) {
+          queryParams.append("language", filters.language.join("|"));
+        }
+
+        const response = await axiosInstance.get(
+          `/movies/filter-movies?${queryParams.toString()}`
+        );
+        setFilteredMovies(response.data.data || []);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+        setFilteredMovies([]);
+      }
+    };
+
+    fetchFilteredMovies();
+  }, [filters]);
 
   return (
     <section className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
@@ -12,65 +66,50 @@ const MoviesPage = () => {
         {/* Filters Section */}
         <aside className="hidden space-y-4 lg:block">
           <h2 className="text-xl font-bold text-white">Filters</h2>
+
+          {/* Genre Filter */}
           <details className="overflow-hidden rounded-sm border border-gray-700">
             <summary className="flex cursor-pointer items-center justify-between gap-2 p-4 text-white">
               <span className="text-sm font-medium">Genre</span>
-              <span className="transition group-open:-rotate-180">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  className="size-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                  />
-                </svg>
-              </span>
+              <span className="transition group-open:-rotate-180"> ▼ </span>
             </summary>
             <div className="border-t border-gray-600 bg-gray-800 p-4">
-              <ul className="space-y-2">
-                <li><input type="checkbox" className="mr-2" /> Action</li>
-                <li><input type="checkbox" className="mr-2" /> Comedy</li>
-                <li><input type="checkbox" className="mr-2" /> Drama</li>
-                <li><input type="checkbox" className="mr-2" /> Thriller</li>
-                <li><input type="checkbox" className="mr-2" /> Sci-Fi</li>
-              </ul>
+              {["Action", "Comedy", "Drama", "Thriller", "Sci-Fi"].map(
+                (genre) => (
+                  <label key={genre} className="block text-white">
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      onChange={() => handleFilterChange("genre", genre)}
+                      checked={filters.genre.includes(genre)}
+                    />
+                    {genre}
+                  </label>
+                )
+              )}
             </div>
           </details>
 
+          {/* Language Filter */}
           <details className="overflow-hidden rounded-sm border border-gray-700">
             <summary className="flex cursor-pointer items-center justify-between gap-2 p-4 text-white">
               <span className="text-sm font-medium">Language</span>
-              <span className="transition group-open:-rotate-180">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  className="size-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                  />
-                </svg>
-              </span>
+              <span className="transition group-open:-rotate-180"> ▼ </span>
             </summary>
             <div className="border-t border-gray-600 bg-gray-800 p-4">
-              <ul className="space-y-2">
-                <li><input type="checkbox" className="mr-2" /> English</li>
-                <li><input type="checkbox" className="mr-2" /> Hindi</li>
-                <li><input type="checkbox" className="mr-2" /> Tamil</li>
-                <li><input type="checkbox" className="mr-2" /> Telugu</li>
-                <li><input type="checkbox" className="mr-2" /> Malayalam</li>
-              </ul>
+              {["English", "Hindi", "Tamil", "Telugu", "Malayalam"].map(
+                (language) => (
+                  <label key={language} className="block text-white">
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      onChange={() => handleFilterChange("language", language)}
+                      checked={filters.language.includes(language)}
+                    />
+                    {language}
+                  </label>
+                )
+              )}
             </div>
           </details>
         </aside>
@@ -85,11 +124,15 @@ const MoviesPage = () => {
             <Skeleton />
           ) : (
             <section className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {movieList?.map((movie) => (
-                <div key={movie?._id} className="flex justify-center">
-                  <MovieCard movie={movie} />
-                </div>
-              ))}
+              {(isFiltering ? filteredMovies : movieList)?.length > 0 ? (
+                (isFiltering ? filteredMovies : movieList).map((movie) => (
+                  <div key={movie?._id} className="flex justify-center">
+                    <MovieCard movie={movie} />
+                  </div>
+                ))
+              ) : (
+                <p className="text-white text-center w-full">No movies found</p>
+              )}
             </section>
           )}
         </div>

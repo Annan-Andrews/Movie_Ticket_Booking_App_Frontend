@@ -10,43 +10,52 @@ const useLogout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  
   const isUserAuth = useSelector((state) => state.user.isUserAuth);
-  const isTheaterOwnerAuth = useSelector(
-    (state) => state.theaterOwner.isTheaterOwnerAuth
+  const { isTheaterOwnerAuth, theaterOwnerData } = useSelector(
+    (state) => state.theaterOwner
   );
 
+  const authConfig =
+    theaterOwnerData?.role === "admin"
+      ? {
+          role: "admin",
+          logoutAPI: "/theaterOwnerAdmin/logout",
+          action: clearTheaterOwner,
+          loginRoute: "/admin/login",
+        }
+      : isTheaterOwnerAuth
+      ? {
+          role: "theaterOwner",
+          logoutAPI: "/theaterOwnerAdmin/logout",
+          action: clearTheaterOwner,
+          loginRoute: "/theaterOwner/login",
+        }
+      : isUserAuth
+      ? {
+          role: "user",
+          logoutAPI: "/user/logout",
+          action: clearUser,
+          loginRoute: "/login",
+        }
+      : null;
+
   const handleLogout = async () => {
+    if (!authConfig) {
+      toast.error("No active session found!");
+      return;
+    }
+
     try {
-      // Define logout parameters
-      let logoutApi = "";
-      let action = null;
-      let loginRoute = "";
-
-      if (isUserAuth) {
-        logoutApi = "/user/logout";
-        action = clearUser;
-        loginRoute = "/login";
-      } else if (isTheaterOwnerAuth) {
-        logoutApi = "/theaterOwnerAdmin/logout";
-        action = clearTheaterOwner;
-        loginRoute = "/theaterOwner/login";
-      } else {
-        toast.error("No active session found!");
-        return;
-      }
-
-      
-      const response = await axiosInstance.get(logoutApi);
+      const response = await axiosInstance.get(authConfig.logoutAPI);
 
       if (response.status === 200) {
         toast.success("Logout successfully!");
 
         setTimeout(() => {
-          navigate(loginRoute);
+          navigate(authConfig.loginRoute);
         }, 500);
 
-        dispatch(action());
+        dispatch(authConfig.action());
       }
     } catch (error) {
       console.error("Logout error:", error);

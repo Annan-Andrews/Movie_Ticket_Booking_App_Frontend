@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "../../components/user/Carousel";
 import Skeleton from "../../components/shared/Skeleton";
 import MovieCard from "../../components/user/MovieCard";
@@ -6,14 +6,28 @@ import useFetch from "../../hooks/useFetch";
 import { useOutletContext } from "react-router-dom";
 
 const Home = () => {
-  const { searchResults = [], searchQuery = "" } = useOutletContext() || {};
+  const context = useOutletContext(); // Get the entire context
+  console.log("Received context in Home:", context);
+
+  const { searchResults = [], searchQuery = "" } = context || {};
   const [movieList, isLoading, error] = useFetch("/movies/get-all-movies");
 
-  console.log("Received searchResults:", searchResults);
-  console.log("Received searchQuery:", searchQuery);
+  const [moviesToShow, setMoviesToShow] = useState(movieList);
 
-  // Use search results if available, otherwise show all movies
-  const moviesToShow = searchQuery?.trim() ? searchResults : movieList;
+  // Update moviesToShow whenever searchResults or movieList changes
+  useEffect(() => {
+    if (searchQuery?.trim()) {
+      setMoviesToShow(searchResults);
+    } else {
+      setMoviesToShow(movieList);
+    }
+  }, [searchResults, searchQuery, movieList]);
+
+  useEffect(() => {
+    console.log("Updated searchResults in Home:", searchResults);
+    console.log("Updated searchQuery in Home:", searchQuery);
+  }, [searchResults, searchQuery]); 
+  console.log("Updated moviesToShow:", moviesToShow);
 
   return (
     <>
@@ -31,7 +45,7 @@ const Home = () => {
         <Skeleton />
       ) : (
         <section className="px-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {moviesToShow.length > 0 ? (
+          {moviesToShow?.length > 0 ? (
             moviesToShow.map((movie) => (
               <div key={movie?._id} className="w-full flex justify-center">
                 <MovieCard movie={movie} />

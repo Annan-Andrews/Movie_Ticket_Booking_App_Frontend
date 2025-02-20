@@ -125,6 +125,11 @@ const UserHeader = ({ setSearchResults, setSearchQuery }) => {
               <a onClick={() => handleNavigate("/movies")}>Movies</a>
             </li>
             <li>
+              <a onClick={() => handleNavigate("/user/view-bookings")}>
+                My Bookings
+              </a>
+            </li>
+            <li>
               <a>About</a>
             </li>
             <li>

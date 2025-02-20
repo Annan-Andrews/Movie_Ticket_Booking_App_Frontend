@@ -6,8 +6,9 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FiHome } from "react-icons/fi";
 import useLogout from "../../hooks/useLogout";
 import useFetch from "../../hooks/useFetch";
+import { FaUserAlt } from "react-icons/fa";
 
-const TheaterOwnerHeader = () => {
+const AdminHeader = () => {
   const navigate = useNavigate();
   const logout = useLogout();
   const [profileData, isLoading, error] = useFetch(
@@ -44,7 +45,7 @@ const TheaterOwnerHeader = () => {
                     <button
                       className="btn m-1"
                       onClick={() => {
-                        navigate("/theaterOwner/dashboard");
+                        navigate("/admin/dashboard");
                         closeSidebar();
                       }}
                     >
@@ -60,26 +61,42 @@ const TheaterOwnerHeader = () => {
                         <li>
                           <a
                             onClick={() => {
-                              navigate("/theaterOwner/create-theater");
+                              navigate("/admin/view-all-theaters");
                               closeSidebar();
                             }}
                           >
-                            Create Theater
+                            View All Theaters
                           </a>
                         </li>
                         <li>
                           <a
                             onClick={() => {
-                              navigate("/theaterOwner/view-theaters");
+                              navigate("/admin/view-all-theaterOwners");
                               closeSidebar();
                             }}
                           >
-                            View Theaters
+                            View All Theaters Owners
                           </a>
                         </li>
-                        {/* <li>
-                          <a>Edit Theaters</a>
-                        </li> */}
+                      </ul>
+                    </details>
+                  </li>
+                  <li>
+                    <details>
+                      <summary className="btn m-1">
+                        <FaUserAlt /> Users
+                      </summary>
+                      <ul className="menu bg-base-100 rounded-box z-[1] w-50 p-2 shadow">
+                        <li>
+                          <a
+                            onClick={() => {
+                              navigate("/admin/view-all-users");
+                              closeSidebar();
+                            }}
+                          >
+                            View All Users
+                          </a>
+                        </li>
                       </ul>
                     </details>
                   </li>
@@ -92,31 +109,21 @@ const TheaterOwnerHeader = () => {
                         <li>
                           <a
                             onClick={() => {
-                              navigate("/theaterOwner/create-movie");
+                              navigate("/admin/view-all-movies");
                               closeSidebar();
                             }}
                           >
-                            Create Movie
+                            View All Movie
                           </a>
                         </li>
                         <li>
                           <a
                             onClick={() => {
-                              navigate("/theaterOwner/view-movies");
+                              navigate("/admin/view-all-movie-schedules");
                               closeSidebar();
                             }}
                           >
-                            View Movies
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            onClick={() => {
-                              navigate("/theaterOwner/view-MovieSchedules");
-                              closeSidebar();
-                            }}
-                          >
-                            View Movie Schedule
+                            View All Movie Schedules
                           </a>
                         </li>
                       </ul>
@@ -140,7 +147,7 @@ const TheaterOwnerHeader = () => {
             <div className="flex items-center gap-2">
               <div
                 className="avatar placeholder cursor-pointer"
-                onClick={() => navigate("/theaterOwner/profile")}
+                onClick={() => navigate("/admin/profile")}
               >
                 <div className="bg-neutral text-neutral-content w-12 h-12 flex items-center justify-center rounded-full">
                   <span className="text-lg font-semibold">
@@ -149,12 +156,12 @@ const TheaterOwnerHeader = () => {
                 </div>
               </div>
               <span className="text-base font-medium whitespace-nowrap text-white">
-                Hi, {profileData?.name || "Theater Owner"}
+                Hi, {profileData?.name || "Admin"}
               </span>
             </div>
 
             <img
-              onClick={() => navigate("/theaterOwner/dashboard")}
+              onClick={() => navigate("/admin/dashboard")}
               src="https://res.cloudinary.com/dnxflkosb/image/upload/v1739373180/Logo_nrplsu.png"
               alt="Movie Booking Logo"
               className="h-10 w-auto cursor-pointer rounded-sm"
@@ -166,4 +173,4 @@ const TheaterOwnerHeader = () => {
   );
 };
 
-export default TheaterOwnerHeader;
+export default AdminHeader;
