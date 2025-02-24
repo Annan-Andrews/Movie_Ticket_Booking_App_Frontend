@@ -49,45 +49,45 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">Edit Profile</h1>
+    <div className="mt-8 max-w-lg mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">Edit Profile</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Name</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
           <input
             type="text"
-            className="mt-1 block w-full rounded-lg border-gray-300 p-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             {...register("name")}
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
           <input
             type="email"
-            className="mt-1 block w-full rounded-lg border-gray-300 p-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             {...register("email")}
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Mobile</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Mobile</label>
           <input
             type="text"
-            className="mt-1 block w-full rounded-lg border-gray-300 p-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             {...register("mobile")}
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Profile Picture</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Profile Picture</label>
           <input
             type="file"
             accept="image/*"
-            className="mt-1 block w-full rounded-lg border-gray-300 p-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             {...register("profilePic")}
           />
           {profilePreview && (
@@ -102,12 +102,12 @@ const EditProfile = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3 mt-4 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75"
+          className="w-full py-3 mt-4 bg-indigo-600 dark:bg-indigo-700 text-white font-medium rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75"
         >
           Save Changes
         </button>
       </form>
-      {error && <p className="text-red-500 mt-2">Error: {error}</p>}
+      {error && <p className="text-red-500 dark:text-red-400 mt-2">Error: {error}</p>}
     </div>
   );
 };
