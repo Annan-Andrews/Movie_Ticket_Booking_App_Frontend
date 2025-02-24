@@ -142,11 +142,17 @@ const TheaterOwnerHeader = () => {
                 className="avatar placeholder cursor-pointer"
                 onClick={() => navigate("/theaterOwner/profile")}
               >
-                <div className="bg-neutral text-neutral-content w-12 h-12 flex items-center justify-center rounded-full">
-                  <span className="text-lg font-semibold">
-                    {profileData?.name?.slice(0, 2)?.toUpperCase() || "U"}
-                  </span>
-                </div>
+                {profileData?.profilePic ? (
+                  <div className="w-12 h-12 rounded-full border-2 border-white dark:border-gray-700">
+                    <img src={profileData?.profilePic} alt="Profile" />
+                  </div>
+                ) : (
+                  <div className="bg-neutral text-neutral-content w-12 h-12 flex items-center justify-center rounded-full">
+                    <span className="text-lg font-semibold">
+                      {profileData?.name?.slice(0, 2)?.toUpperCase() || "U"}
+                    </span>
+                  </div>
+                )}
               </div>
               <span className="text-base font-medium whitespace-nowrap text-white">
                 Hi, {profileData?.name || "Theater Owner"}

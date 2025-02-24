@@ -34,6 +34,10 @@ import AllTheaterOwners from "../pages/admin/AllTheaterOwners";
 import AllUsers from "../pages/admin/AllUsers";
 import AllMovies from "../pages/admin/AllMovies";
 import AllMovieSchedules from "../pages/admin/AllMovieSchedules";
+import TheaterOwnerProfile from "../pages/theater_Owner/TheaterOwnerProfile";
+import EditTheaterOwnerProfile from "../components/theater_Owner/EditTheaterOwnerProfile";
+import AdminProfile from "../pages/admin/AdminProfile";
+import EditAdminProfile from "../components/admin/EditAdminProfile";
 
 export const router = createBrowserRouter([
   {
@@ -140,7 +144,11 @@ export const router = createBrowserRouter([
           },
           {
             path: "profile",
-            element: <h1>Theater Owner Profile page</h1>,
+            element: <TheaterOwnerProfile />,
+          },
+          {
+            path: "edit-profile",
+            element: <EditTheaterOwnerProfile />,
           },
           {
             path: "create-theater",
@@ -209,7 +217,11 @@ export const router = createBrowserRouter([
           },
           {
             path: "profile",
-            element: <h1>Admin Profile page</h1>,
+            element: <AdminProfile />,
+          },
+          {
+            path: "edit-profile",
+            element: <EditAdminProfile />,
           },
           {
             path: "view-all-theaters",
