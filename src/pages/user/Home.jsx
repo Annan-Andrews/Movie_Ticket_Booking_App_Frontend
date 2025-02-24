@@ -26,7 +26,7 @@ const Home = () => {
   useEffect(() => {
     console.log("Updated searchResults in Home:", searchResults);
     console.log("Updated searchQuery in Home:", searchQuery);
-  }, [searchResults, searchQuery]); 
+  }, [searchResults, searchQuery]);
   console.log("Updated moviesToShow:", moviesToShow);
 
   return (
@@ -36,7 +36,7 @@ const Home = () => {
       </section>
 
       <section className="mb-8 text-center px-4">
-        <h1 className="text-3xl font-bold text-white">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
           {searchQuery ? `Results for: "${searchQuery}"` : "Movies"}
         </h1>
       </section>
@@ -52,7 +52,7 @@ const Home = () => {
               </div>
             ))
           ) : (
-            <p className="text-center text-white col-span-full">
+            <p className="text-center text-gray-700 dark:text-gray-300 col-span-full">
               No movies found
             </p>
           )}

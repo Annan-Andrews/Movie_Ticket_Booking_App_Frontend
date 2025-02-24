@@ -23,23 +23,24 @@ const TheaterOwnerDashboard = () => {
   );
 
   useEffect(() => {
-    if (theatersResponse || moviesResponse) {
-      const totalMovieSchedules = theatersResponse.reduce(
-        (acc, theater) => acc + (theater.movieSchedules?.length || 0),
-        0
-      );
+    const totalTheaters = theatersResponse ? theatersResponse.length : 0;
+    const totalMovies = moviesResponse ? moviesResponse.length : 0;
+    const totalMovieSchedules = theatersResponse
+      ? theatersResponse.reduce(
+          (acc, theater) => acc + (theater.movieSchedules?.length || 0),
+          0
+        )
+      : 0;
 
-      setDashboardData({
-        totalTheaters: theatersResponse.length,
-        totalMovies: moviesResponse.length,
-        totalMovieSchedules,
-        totalRevenue: 0, // Placeholder for revenue calculation
-      });
-    }
-  }, [theatersResponse]);
+    setDashboardData({
+      totalTheaters,
+      totalMovies,
+      totalMovieSchedules,
+      totalRevenue: 0, // Placeholder for revenue calculation
+    });
+  }, [theatersResponse, moviesResponse]);
 
-  // if (!theatersResponse) return <p>No data found</p>
-  if (isLoading) return <Skeleton />;
+  // if (isLoading) return <Skeleton />;
   if (error)
     return (
       <p className="text-red-500">
@@ -55,7 +56,6 @@ const TheaterOwnerDashboard = () => {
         </h2>
       </div>
 
-      {/* Centering the grid */}
       <dl className="mt-6 grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3 justify-center mx-auto">
         <div className="flex flex-col rounded-lg bg-blue-50 px-4 py-8 text-center dark:bg-blue-700/25">
           <dt className="order-last text-lg font-medium text-gray-500 dark:text-white/75">

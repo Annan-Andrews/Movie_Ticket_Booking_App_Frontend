@@ -33,7 +33,7 @@ const MoviesPage = () => {
   useEffect(() => {
     const fetchFilteredMovies = async () => {
       if (filters.genre.length === 0 && filters.language.length === 0) {
-        setIsFiltering(false); // No filters selected, show all movies
+        setIsFiltering(false);
         return;
       }
 
@@ -65,18 +65,23 @@ const MoviesPage = () => {
       <div className="grid lg:grid-cols-4 lg:gap-8">
         {/* Filters Section */}
         <aside className="hidden space-y-4 lg:block">
-          <h2 className="text-xl font-bold text-white">Filters</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+            Filters
+          </h2>
 
           {/* Genre Filter */}
-          <details className="overflow-hidden rounded-sm border border-gray-700">
-            <summary className="flex cursor-pointer items-center justify-between gap-2 p-4 text-white">
+          <details className="overflow-hidden rounded-sm border border-gray-300 dark:border-gray-600">
+            <summary className="flex cursor-pointer items-center justify-between gap-2 p-4 text-gray-900 dark:text-gray-100">
               <span className="text-sm font-medium">Genre</span>
               <span className="transition group-open:-rotate-180"> ▼ </span>
             </summary>
-            <div className="border-t border-gray-600 bg-gray-800 p-4">
+            <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 p-4">
               {["Action", "Comedy", "Drama", "Thriller", "Sci-Fi"].map(
                 (genre) => (
-                  <label key={genre} className="block text-white">
+                  <label
+                    key={genre}
+                    className="block text-gray-900 dark:text-gray-100"
+                  >
                     <input
                       type="checkbox"
                       className="mr-2"
@@ -91,15 +96,18 @@ const MoviesPage = () => {
           </details>
 
           {/* Language Filter */}
-          <details className="overflow-hidden rounded-sm border border-gray-700">
-            <summary className="flex cursor-pointer items-center justify-between gap-2 p-4 text-white">
+          <details className="overflow-hidden rounded-sm border border-gray-300 dark:border-gray-600">
+            <summary className="flex cursor-pointer items-center justify-between gap-2 p-4 text-gray-900 dark:text-gray-100">
               <span className="text-sm font-medium">Language</span>
               <span className="transition group-open:-rotate-180"> ▼ </span>
             </summary>
-            <div className="border-t border-gray-600 bg-gray-800 p-4">
+            <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 p-4">
               {["English", "Hindi", "Tamil", "Telugu", "Malayalam"].map(
                 (language) => (
-                  <label key={language} className="block text-white">
+                  <label
+                    key={language}
+                    className="block text-gray-900 dark:text-gray-100"
+                  >
                     <input
                       type="checkbox"
                       className="mr-2"
@@ -117,7 +125,9 @@ const MoviesPage = () => {
         {/* Movies Section */}
         <div className="lg:col-span-3 flex flex-col">
           <section className="mb-6 text-center">
-            <h1 className="text-3xl font-bold text-white">Movies</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+              Movies
+            </h1>
           </section>
 
           {isLoading ? (
@@ -131,7 +141,9 @@ const MoviesPage = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-white text-center w-full">No movies found</p>
+                <p className="text-gray-900 dark:text-gray-300 text-center w-full">
+                  No movies found
+                </p>
               )}
             </section>
           )}

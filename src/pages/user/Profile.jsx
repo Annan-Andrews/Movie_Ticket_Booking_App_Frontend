@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import ChangePassword from "../../components/user/ChangePassword";
 import { useNavigate } from "react-router-dom";
-import Skeleton from "../../components/shared/Skeleton";
 import useLogout from "../../hooks/useLogout";
+import Skeleton from "../../components/shared/Skeleton";
 
 const Profile = () => {
   const [profileData, isLoading, error] = useFetch("/user/profile");

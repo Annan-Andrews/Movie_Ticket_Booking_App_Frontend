@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { axiosInstance } from "../../config/axiosInstance";
+import DarkMode from "../shared/DarkMode";
 
 const Header = ({ setSearchResults, setSearchQuery }) => {
   const navigate = useNavigate();
@@ -21,13 +22,13 @@ const Header = ({ setSearchResults, setSearchQuery }) => {
     }
 
     try {
-      console.log("Calling Search API..."); 
+      console.log("Calling Search API...");
 
       const response = await axiosInstance.get(
         `/movies/search-movies?title=${value}`
       );
       setSearchResults(response.data.data); // Store search results
-      console.log(response.data); 
+      console.log(response.data);
     } catch (error) {
       console.error("Search API Error:", error);
       setSearchResults([]); // Clear results if API fails
@@ -56,7 +57,7 @@ const Header = ({ setSearchResults, setSearchQuery }) => {
   };
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 dark:bg-gray-900">
       {/* Left Section (Logo & Search) */}
       <div className="flex-1 flex items-center gap-3">
         <img
@@ -69,7 +70,7 @@ const Header = ({ setSearchResults, setSearchQuery }) => {
           <input
             type="text"
             placeholder="Search"
-            className="input input-bordered w-24 md:w-auto"
+            className="input input-bordered w-24 md:w-auto dark:bg-gray-800 dark:text-white dark:border-gray-600"
             value={query}
             onChange={handleSearch}
           />
@@ -79,10 +80,12 @@ const Header = ({ setSearchResults, setSearchQuery }) => {
       {/* Right Section (Login & Dropdown Menu) */}
       <div className="flex-none gap-3">
         <div className="navbar-end">
-          <a className="btn btn-error" onClick={() => navigate("/login")}>
+          <a className="btn btn-error " onClick={() => navigate("/login")}>
             Login
           </a>
         </div>
+
+        <DarkMode />
 
         {/* Hamburger Menu (Dropdown) */}
         <details
@@ -91,22 +94,42 @@ const Header = ({ setSearchResults, setSearchQuery }) => {
           open={isMenuDropdownOpen}
           onToggle={(e) => setIsMenuDropdownOpen(e.target.open)}
         >
-          <summary className="btn btn-ghost">
-            <GiHamburgerMenu className="text-white text-2xl" />
+          <summary className="btn btn-ghost dark:text-white">
+            <GiHamburgerMenu className="text-black dark:text-white text-2xl" />
           </summary>
 
-          <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow absolute right-0 mt-2">
+          <ul className="dropdown-content menu bg-base-100 dark:bg-gray-800 rounded-box z-[1] w-52 p-2 shadow absolute right-0 mt-2">
             <li>
-              <a onClick={() => handleNavigate("/")}>Home</a>
+              <a
+                className="dark:text-white"
+                onClick={() => handleNavigate("/")}
+              >
+                Home
+              </a>
             </li>
             <li>
-              <a onClick={() => handleNavigate("/movies")}>Movies</a>
+              <a
+                className="dark:text-white"
+                onClick={() => handleNavigate("/movies")}
+              >
+                Movies
+              </a>
             </li>
             <li>
-              <a onClick={() => handleNavigate("/about")}>About</a>
+              <a
+                className="dark:text-white"
+                onClick={() => handleNavigate("/about")}
+              >
+                About
+              </a>
             </li>
             <li>
-              <a onClick={() => handleNavigate("/contact")}>Contact</a>
+              <a
+                className="dark:text-white"
+                onClick={() => handleNavigate("/contact")}
+              >
+                Contact
+              </a>
             </li>
           </ul>
         </details>

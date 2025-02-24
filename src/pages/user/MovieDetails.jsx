@@ -37,7 +37,7 @@ const MovieDetails = () => {
   if (isLoading) return <Skeleton />;
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen">
+    <div className="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen">
       <div
         className="relative h-[60vh] bg-cover bg-center"
         style={{ backgroundImage: `url(${movie.poster})` }}
@@ -59,10 +59,12 @@ const MovieDetails = () => {
           </p>
           <p className="text-lg mt-2">{movie?.genre?.join(", ")}</p>
           <p className="text-lg mt-2">{movie.description}</p>
-          <p className="text-gray-300 mt-2">Duration: {movie.duration} min</p>
+          <p className="text-gray-600 dark:text-gray-300 mt-2">
+            Duration: {movie.duration} min
+          </p>
 
           <button
-            className="mt-5 bg-red-600 px-6 py-2 text-white font-semibold rounded-md hover:bg-red-700"
+            className="mt-5 bg-red-600 text-white px-6 py-2 font-semibold rounded-md hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600"
             onClick={() => navigate(`/theaterSelection/${movieId}`)}
           >
             Book Tickets
@@ -73,7 +75,7 @@ const MovieDetails = () => {
       {isUserAuth && (
         <div className="container mx-auto px-4 py-8">
           <div className="w-full max-w-md">
-            <h2 className="text-2xl font-semibold mb-4 text-left text-gray-800 dark:text-gray-100">
+            <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
               Add Your Review
             </h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -81,7 +83,7 @@ const MovieDetails = () => {
                 <input
                   type="number"
                   placeholder="Rating (1-5)"
-                  className="input input-bordered w-full max-w-xs"
+                  className="input input-bordered w-full max-w-xs bg-white text-black dark:bg-gray-800 dark:text-white"
                   min="1"
                   max="5"
                   {...register("rating", { required: true, min: 1, max: 5 })}
@@ -91,14 +93,14 @@ const MovieDetails = () => {
               <div className="relative">
                 <textarea
                   placeholder="Write your review"
-                  className="textarea textarea-bordered textarea-lg w-full max-w-xs"
+                  className="textarea textarea-bordered textarea-lg w-full max-w-xs bg-white text-black dark:bg-gray-800 dark:text-white"
                   {...register("comment", { required: true })}
                 ></textarea>
               </div>
 
               <button
                 type="submit"
-                className="w-40 py-2 text-base font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition duration-200 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600"
+                className="w-40 py-2 text-base font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
               >
                 Add Review
               </button>

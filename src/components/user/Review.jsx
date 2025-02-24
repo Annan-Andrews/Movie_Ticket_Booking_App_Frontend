@@ -9,7 +9,7 @@ const Reviews = ({ movieId }) => {
   );
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-white dark:bg-gray-900 text-black dark:text-white">
       <h3 className="text-center text-2xl font-bold sm:text-3xl">
         User Reviews
       </h3>
