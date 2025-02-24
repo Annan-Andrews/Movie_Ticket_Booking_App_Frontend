@@ -8,7 +8,7 @@ const BookingsList = () => {
 
   if (isLoading) return <Skeleton />;
   if (error)
-    return <p className="text-red-500 text-center">Error fetching bookings</p>;
+    return <p className="text-red-500 dark:text-red-400 text-center">Error fetching bookings</p>;
 
   const formatTime = (time) => {
     const [hours, minutes] = time.split(":");
@@ -22,23 +22,23 @@ const BookingsList = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white p-6">
       <h2 className="text-2xl font-bold text-center mb-6">Your Bookings</h2>
 
       <div className="max-w-4xl mx-auto space-y-4">
         {bookings?.map((booking) => (
           <div
             key={booking._id}
-            className="bg-gray-800 p-4 rounded-lg shadow-md cursor-pointer hover:bg-gray-700 transition"
+            className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-md cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition"
             onClick={() => navigate(`/user/booking-details/${booking._id}`)}
           >
             <h3 className="text-lg font-semibold">
               {booking.scheduleDetails.theaterName}
             </h3>
-            <p className="text-gray-300">
+            <p className="text-gray-600 dark:text-gray-300">
               {booking.scheduleDetails.schedule.movieId.title}
             </p>
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
               <span className="font-semibold">Date:</span>{" "}
               {new Date(
                 booking.scheduleDetails.schedule.showDate
@@ -52,10 +52,10 @@ const BookingsList = () => {
               <span
                 className={`ml-2 px-3 py-1 rounded-md ${
                   booking?.bookingStatus === "Confirmed"
-                    ? "bg-green-600"
+                    ? "bg-green-500 dark:bg-green-600"
                     : booking?.bookingStatus === "Cancelled"
-                    ? "bg-red-600"
-                    : "bg-yellow-500"
+                    ? "bg-red-500 dark:bg-red-600"
+                    : "bg-yellow-400 dark:bg-yellow-500"
                 }`}
               >
                 {booking?.bookingStatus}

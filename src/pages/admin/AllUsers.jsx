@@ -70,11 +70,11 @@ const AllUsers = () => {
                 <td>{user.mobile}</td>
                 <th>
                   <button
-                    onClick={() =>
-                      navigate(
-                        `/theaterOwner/theaterDetails/${theaterOwner._id}`
-                      )
-                    }
+                    // onClick={() =>
+                    //   navigate(
+                    //     `/theaterOwner/theaterDetails/${theaterOwner._id}`
+                    //   )
+                    // }
                     className="btn btn-ghost btn-sm"
                   >
                     Remove

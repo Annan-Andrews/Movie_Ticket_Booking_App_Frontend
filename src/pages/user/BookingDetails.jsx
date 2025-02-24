@@ -22,12 +22,14 @@ const BookingDetails = () => {
   if (isLoading) return <Skeleton />;
   if (error)
     return (
-      <p className="text-red-500 text-center">Error fetching booking details</p>
+      <p className="text-red-500 text-center dark:text-red-400">
+        Error fetching booking details
+      </p>
     );
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex justify-center items-center p-8">
-      <div className="max-w-5xl w-full bg-gray-800 p-8 rounded-2xl shadow-xl flex flex-col md:flex-row gap-8">
+    <div className="min-h-screen bg-gray-100 text-black dark:bg-gray-900 dark:text-white flex justify-center items-center p-8">
+      <div className="max-w-5xl w-full bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl flex flex-col md:flex-row gap-8">
         {/* Left Side: Movie Image */}
         <div className="md:w-1/2 flex justify-center">
           <img
@@ -42,11 +44,11 @@ const BookingDetails = () => {
           <h2 className="text-3xl font-bold mb-2">
             {booking?.scheduleDetails?.schedule?.movieId?.title}
           </h2>
-          <p className="text-gray-400 text-lg">
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
             {booking?.scheduleDetails?.theaterName}
           </p>
 
-          <p className="text-gray-300 mt-4 text-lg">
+          <p className="text-gray-700 dark:text-gray-300 mt-4 text-lg">
             <span className="font-semibold">Date:</span>{" "}
             {new Date(
               booking?.scheduleDetails?.schedule?.showDate
@@ -74,7 +76,7 @@ const BookingDetails = () => {
           </p>
 
           <h4 className="mt-6 text-xl font-semibold">User Details:</h4>
-          <p className="text-gray-300 text-lg">
+          <p className="text-gray-700 dark:text-gray-300 text-lg">
             <span className="font-semibold">Name:</span> {booking?.userId?.name}{" "}
             <br />
             <span className="font-semibold">Email:</span>{" "}

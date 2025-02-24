@@ -51,7 +51,7 @@ const SeatSelection = () => {
   });
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen p-6 flex flex-col items-center">
+    <div className="min-h-screen p-6 bg-gray-100 text-black dark:bg-gray-900 dark:text-white flex flex-col items-center">
       <h1 className="text-3xl font-bold text-center mb-4">
         {scheduleDetails?.schedule.movieId.title || "Movie Name"}
       </h1>
@@ -63,7 +63,7 @@ const SeatSelection = () => {
         <h2 className="text-xl font-semibold">Ticket Price: {ticketPrice}</h2>
       </div>
 
-      <div className="w-full text-center text-gray-300 text-lg border-b-4 border-gray-500 pb-2 mb-6">
+      <div className="w-full text-center text-gray-700 dark:text-gray-300 text-lg border-b-4 border-gray-500 pb-2 mb-6">
         SCREEN
       </div>
 
@@ -116,14 +116,14 @@ const SeatSelection = () => {
 
       {selectedSeats.length > 0 && (
         <div className="fixed inset-x-0 bottom-0 p-3">
-          <div className="rounded-lg bg-gray-800 px-6 py-3 text-white shadow-2xl text-center animate-fade-up max-w-md mx-auto">
+          <div className="rounded-lg bg-gray-300 text-black dark:bg-gray-800 dark:text-white px-6 py-3 shadow-2xl text-center animate-fade-up max-w-md mx-auto">
             <p className="text-lg font-semibold">
               Selected Seats: {selectedSeats.map((s) => s.seatId).join(", ")} |
               Total Price: ₹{selectedSeats.length * ticketPrice}
             </p>
             <button
               onClick={handleProceedToBooking}
-              className="mt-3 bg-indigo-500 px-6 py-2 rounded-lg font-semibold hover:bg-indigo-600 transition-all shadow-md"
+              className="mt-3 bg-blue-500 dark:bg-indigo-500 px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 dark:hover:bg-indigo-600 transition-all shadow-md"
             >
               Buy Ticket
             </button>

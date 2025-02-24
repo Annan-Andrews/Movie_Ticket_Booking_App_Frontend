@@ -33,11 +33,17 @@ const Signup = ({ role = "user" }) => {
 
   const onSubmit = async (data) => {
     try {
+      const requestData = {
+        ...data,
+        ...(role === "admin" && { role: "admin" }), // Only include role if admin
+      };
+
       const response = await axiosInstance({
         method: "POST",
         url: user.signupAPI,
-        data: data,
+        data: requestData,
       });
+
       console.log("response::", response);
       if (response.status === 200) {
         toast.success("Account Created successfully!");
@@ -58,6 +64,8 @@ const Signup = ({ role = "user" }) => {
         <h1 className="text-center text-2xl font-bold text-indigo-600 dark:text-indigo-400 sm:text-3xl">
           {user?.role === "theaterOwner"
             ? "Join as a Theater Owner"
+            : user?.role === "admin"
+            ? "Join as a Admin"
             : "Join Us!"}
         </h1>
 

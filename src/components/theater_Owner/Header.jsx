@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
+import DarkMode from "../shared/DarkMode";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ const Header = () => {
           </a>
         </div>
       </div>
+      <DarkMode />
     </div>
   );
 };

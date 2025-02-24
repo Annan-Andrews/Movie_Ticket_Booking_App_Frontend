@@ -47,8 +47,8 @@ const BookingPage = () => {
   if (isScheduleLoading) return <Skeleton />;
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-900 text-white p-10">
-      <div className="bg-gray-800 p-8 rounded-2xl shadow-2xl flex w-full max-w-4xl">
+    <div className="min-h-screen flex justify-center items-center bg-white text-black dark:bg-gray-900 dark:text-white p-10">
+      <div className="bg-gray-200 dark:bg-gray-800 p-8 rounded-2xl shadow-2xl flex w-full max-w-4xl">
         {/* Left Side: Movie Image */}
         <div className="w-1/2 flex justify-center">
           <img
@@ -64,15 +64,15 @@ const BookingPage = () => {
             <h1 className="text-3xl font-bold mb-4">
               {scheduleDetails?.schedule.movieId.title}
             </h1>
-            <p className="text-gray-300 text-lg mb-2">
-              <span className="font-semibold text-white">Theater:</span>{" "}
+            <p className="text-gray-700 dark:text-gray-300 text-lg mb-2">
+              <span className="font-semibold text-black dark:text-white">Theater:</span>{" "}
               {scheduleDetails?.theaterName}
             </p>
-            <p className="text-gray-300 text-lg mb-2">
-              <span className="font-semibold text-white">Selected Seats:</span>{" "}
+            <p className="text-gray-700 dark:text-gray-300 text-lg mb-2">
+              <span className="font-semibold text-black dark:text-white">Selected Seats:</span>{" "}
               {selectedSeats.map((s) => s.seatId).join(", ")}
             </p>
-            <p className="text-lg font-semibold mt-4 text-green-400">
+            <p className="text-lg font-semibold mt-4 text-green-600 dark:text-green-400">
               Total Price: ₹{totalPrice}
             </p>
           </div>
@@ -81,13 +81,13 @@ const BookingPage = () => {
           <div className="mt-6 flex space-x-6">
             <button
               onClick={() => navigate(-1)}
-              className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition text-lg shadow-md"
+              className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 transition text-lg shadow-md"
             >
               Back
             </button>
             <button
               onClick={makePayment}
-              className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-500 transition text-lg shadow-lg"
+              className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-400 dark:bg-green-600 dark:hover:bg-green-500 transition text-lg shadow-lg"
             >
               Make Payment
             </button>

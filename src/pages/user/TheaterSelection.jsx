@@ -50,14 +50,8 @@ const TheaterSelection = () => {
     return dayjs(fullDateTime).format("hh:mm A");
   };
 
-  const handleShowTimeClick = (scheduleId) => {
-    navigate(`/user/seat-selection/${scheduleId}`, {
-      
-    });
-  };
-
   return (
-    <div className="bg-gray-900 text-white min-h-screen p-6">
+    <div className="min-h-screen p-6 bg-gray-100 text-black dark:bg-gray-900 dark:text-white">
       <h1 className="text-3xl font-bold text-center mb-4">Select a Theater</h1>
 
       {/* Date Picker */}
@@ -69,7 +63,7 @@ const TheaterSelection = () => {
                 className={`px-4 py-2 rounded-lg w-full text-center ${
                   selectedDate === date
                     ? "bg-red-500 text-white"
-                    : "bg-gray-700 text-gray-300"
+                    : "bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
                 }`}
                 onClick={() => setSelectedDate(date)}
               >
@@ -81,18 +75,20 @@ const TheaterSelection = () => {
       </div>
 
       {/* Theater List */}
-      <div className="mt-6 p-4 rounded-lg shadow-lg bg-gray-800 w-full">
+      <div className="mt-6 p-4 rounded-lg shadow-lg bg-white text-black dark:bg-gray-800 dark:text-white w-full">
         {filteredTheaters.length > 0 ? (
           <div className="space-y-6">
             {filteredTheaters.map((theater) => (
               <div
                 key={theater._id}
-                className="bg-gray-700 p-6 rounded-lg shadow-md flex justify-between items-center"
+                className="p-6 rounded-lg shadow-md bg-gray-200 text-black dark:bg-gray-700 dark:text-white flex justify-between items-center"
               >
                 {/* Theater Info */}
                 <div>
                   <h2 className="text-xl font-semibold">{theater.name}</h2>
-                  <p className="text-gray-400">{theater.location}</p>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {theater.location}
+                  </p>
                 </div>
 
                 {/* Showtimes */}
@@ -123,7 +119,7 @@ const TheaterSelection = () => {
             ))}
           </div>
         ) : (
-          <p className="text-gray-400 text-center">
+          <p className="text-gray-600 dark:text-gray-400 text-center">
             No theaters available for this movie.
           </p>
         )}
