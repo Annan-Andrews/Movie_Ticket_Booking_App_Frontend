@@ -21,12 +21,12 @@ const Header = () => {
       {/* Right Section (Login & Dropdown Menu) */}
       <div className="flex-none gap-3">
         <div className="navbar-end">
-          <a
+          {/* <a
             className="btn btn-error"
             onClick={() => navigate("/theaterOwner/login")}
           >
             Login
-          </a>
+          </a> */}
         </div>
       </div>
       <DarkMode />
