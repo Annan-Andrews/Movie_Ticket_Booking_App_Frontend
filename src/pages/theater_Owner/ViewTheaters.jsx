@@ -13,16 +13,22 @@ const ViewTheaters = () => {
   );
 
   if (isLoading) return <Skeleton />;
-  if (error)
-    return (
-      <p className="text-red-500">
-        {error.message || "Failed to load theaters."}
-      </p>
-    );
+  // if (error)
+  //   return (
+  //     <p className="text-lg text-red-500">
+  //       {error || "Failed to load theaters."}
+  //     </p>
+  //   );
 
   return (
     <div className="p-6 min-h-screen bg-gray-900 text-white">
       <h1 className="text-2xl font-bold sm:text-3xl mb-6">My Theaters</h1>
+
+      {error && (
+        <p className="text-center text-red-600 font-medium">
+          ❌ {error || "Failed to load theaters."}
+        </p>
+      )}
 
       {theatersResponse?.length === 0 ? (
         <p className="text-lg text-gray-400">No theaters found.</p>

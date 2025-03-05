@@ -12,11 +12,18 @@ const ViewMovies = () => {
     ownerId ? `/movies/view-movies/${ownerId}` : null
   );
 
+
   return (
     <div>
       <section className="mb-8 text-center px-4">
         <h1 className="text-3xl font-bold text-white">Created Movies</h1>
       </section>
+
+      {error && (
+        <p className="text-center text-red-600 font-medium">
+          ❌ {error || "Failed to load movies."}
+        </p>
+      )}
 
       {isLoading ? (
         <Skeleton />

@@ -33,10 +33,16 @@ const Login = ({ role = "user" }) => {
 
   const onSubmit = async (data) => {
     try {
+      const requestData = {
+        ...data,
+        ...(role === "admin" && { role: "admin" }),
+      };
+
+
       const response = await axiosInstance({
         method: "POST",
         url: user.loginAPI,
-        data: data,
+        data: requestData,
       });
       console.log("response::", response);
       if (response.status === 200) {

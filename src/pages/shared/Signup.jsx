@@ -35,7 +35,7 @@ const Signup = ({ role = "user" }) => {
     try {
       const requestData = {
         ...data,
-        ...(role === "admin" && { role: "admin" }), // Only include role if admin
+        ...(role === "admin" && { role: "admin" }),
       };
 
       const response = await axiosInstance({

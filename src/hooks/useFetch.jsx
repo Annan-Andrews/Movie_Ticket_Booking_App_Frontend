@@ -19,7 +19,8 @@ const useFetch = (url) => {
       }, 1000);
     } catch (error) {
       console.log(error);
-      setError(error);
+      setError(error.response?.data?.message);
+      setIsloading(false);
     }
   };
 

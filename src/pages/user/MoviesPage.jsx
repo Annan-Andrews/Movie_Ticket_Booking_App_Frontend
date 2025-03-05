@@ -9,7 +9,7 @@ const MoviesPage = () => {
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [isFiltering, setIsFiltering] = useState(false);
 
-  // Fetch all movies initially
+  
   const [movieList, isLoading, error] = useFetch("/movies/get-all-movies");
 
   // Handle filter selection

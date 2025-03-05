@@ -11,7 +11,7 @@ const TheaterOwnerDashboard = () => {
     totalTheaters: 0,
     totalMovies: 0,
     totalMovieSchedules: 0,
-    totalRevenue: 0,
+    
   });
 
   const [theatersResponse, isLoading, error] = useFetch(
@@ -36,17 +36,12 @@ const TheaterOwnerDashboard = () => {
       totalTheaters,
       totalMovies,
       totalMovieSchedules,
-      totalRevenue: 0, // Placeholder for revenue calculation
+     
     });
   }, [theatersResponse, moviesResponse]);
 
-  // if (isLoading) return <Skeleton />;
-  if (error)
-    return (
-      <p className="text-red-500">
-        {error.message || "Failed to load dashboard data."}
-      </p>
-    );
+  if (isLoading) return <Skeleton />;
+  
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
