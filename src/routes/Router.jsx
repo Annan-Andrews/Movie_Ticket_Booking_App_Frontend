@@ -38,6 +38,7 @@ import TheaterOwnerProfile from "../pages/theater_Owner/TheaterOwnerProfile";
 import EditTheaterOwnerProfile from "../components/theater_Owner/EditTheaterOwnerProfile";
 import AdminProfile from "../pages/admin/AdminProfile";
 import EditAdminProfile from "../components/admin/EditAdminProfile";
+import ViewBookings from "../pages/theater_Owner/ViewBookings";
 
 export const router = createBrowserRouter([
   {
@@ -189,6 +190,10 @@ export const router = createBrowserRouter([
           {
             path: "view-MovieSchedules",
             element: <ViewMovieSchedules />,
+          },
+          {
+            path: "bookings/:scheduleId",
+            element: <ViewBookings />,
           },
         ],
       },

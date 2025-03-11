@@ -18,6 +18,10 @@ const AddMovieScheduleForm = () => {
     ownerId ? `/movies/view-movies/${ownerId}` : null
   );
 
+  const [existingSchedules] = useFetch(
+    `/theater/view-movie-schedules/${theaterId}`
+  );
+
   const {
     register,
     handleSubmit,
@@ -27,6 +31,22 @@ const AddMovieScheduleForm = () => {
 
   const onSubmit = async (data) => {
     try {
+      const selectedDate = new Date(data.showDate).toISOString().split("T")[0];
+      const selectedTime = data.showTime;
+
+      const isOverlapping = existingSchedules?.some(
+        (schedule) =>
+          new Date(schedule.showDate).toISOString().split("T")[0] ===
+            selectedDate && schedule.showTime === selectedTime
+      );
+
+      if (isOverlapping) {
+        toast.error(
+          "This showtime is already booked. Please choose another time."
+        );
+        return;
+      }
+
       setLoading(true);
       const response = await axiosInstance.post(
         `/theater/add-movie-schedules/${theaterId}`,
@@ -42,7 +62,7 @@ const AddMovieScheduleForm = () => {
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong!");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -91,27 +111,6 @@ const AddMovieScheduleForm = () => {
             )}
           </div>
 
-          {/* Show Time */}
-          <div>
-            <label
-              htmlFor="showTime"
-              className="block font-semibold text-gray-300"
-            >
-              Show Time
-            </label>
-            <input
-              type="time"
-              id="showTime"
-              {...register("showTime", { required: "Show time is required" })}
-              className="w-full rounded-lg border border-gray-600 bg-gray-900 p-3 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition duration-200"
-            />
-            {errors.showTime && (
-              <p className="mt-1 text-sm text-red-400">
-                {errors.showTime.message}
-              </p>
-            )}
-          </div>
-
           {/* Show Date */}
           <div>
             <label
@@ -129,6 +128,27 @@ const AddMovieScheduleForm = () => {
             {errors.showDate && (
               <p className="mt-1 text-sm text-red-400">
                 {errors.showDate.message}
+              </p>
+            )}
+          </div>
+
+          {/* Show Time */}
+          <div>
+            <label
+              htmlFor="showTime"
+              className="block font-semibold text-gray-300"
+            >
+              Show Time
+            </label>
+            <input
+              type="time"
+              id="showTime"
+              {...register("showTime", { required: "Show time is required" })}
+              className="w-full rounded-lg border border-gray-600 bg-gray-900 p-3 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition duration-200"
+            />
+            {errors.showTime && (
+              <p className="mt-1 text-sm text-red-400">
+                {errors.showTime.message}
               </p>
             )}
           </div>
